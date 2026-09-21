@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>林氏优采 · AI 智能运输平台 UI 设计稿</title>
+<style>
+/* ============ 设计系统 ============ */
+:root{
+  --brand:#2B6DE8; --brand2:#4C8DFF; --brand-deep:#1B4FC0; --brand-ink:#0F2E6E;
+  --bg:#EDF1F8; --card:#FFFFFF; --line:#E3E9F2; --line2:#EFF2F8;
+  --ink:#15243A; --ink2:#5A6A85; --ink3:#93A1B8;
+  --green:#17A46E; --green-soft:#E3F7EE; --amber:#F59E0B; --amber-soft:#FEF3DE;
+  --red:#E5484D; --red-soft:#FDEBEC; --cyan:#0E9BD8; --cyan-soft:#E1F4FD; --purple:#8B5CF6; --purple-soft:#F1EAFE;
+  --shadow-sm:0 1px 2px rgba(16,34,66,.05); --shadow:0 6px 24px rgba(16,34,66,.08); --shadow-lg:0 20px 50px rgba(16,34,66,.16);
+  --r:14px; --r-sm:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,-apple-system,sans-serif;
+  background:var(--bg); color:var(--ink); font-size:13px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.hidden{display:none!important}
+svg.ic{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.s12{font-size:12px}.s13{font-size:13px}.s14{font-size:14px}.s16{font-size:16px}.s20{font-size:20px}.s11{font-size:11px}
+.block{display:block}
+.c2{color:var(--ink2)}.c3{color:var(--ink3)}.green{color:var(--green)}.red{color:var(--red)}.amber{color:var(--amber)}.cyan{color:var(--cyan)}.brand{color:var(--brand)}
+.bold{font-weight:600}.num{font-variant-numeric:tabular-nums;font-family:"DIN Alternate","Segoe UI",system-ui}
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
+.flex{display:flex;align-items:center}.between{justify-content:space-between}.gap6{gap:6px}.gap8{gap:8px}.gap10{gap:10px}.gap12{gap:12px}.gap16{gap:16px}.wrap{flex-wrap:wrap}
+.grow{flex:1;min-width:0}
+/* 按钮 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;padding:0 14px;border-radius:9px;border:1px solid transparent;font-size:13px;font-weight:500;cursor:pointer;transition:.16s;white-space:nowrap;background:var(--card)}
+.btn.primary{background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;box-shadow:0 6px 16px -6px rgba(43,109,232,.65)}
+.btn.primary:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.btn.ghost{border-color:var(--line);background:var(--card);color:var(--ink2)}
+.btn.ghost:hover{border-color:var(--brand);color:var(--brand)}
+.btn.soft{background:var(--brand);color:#fff}
+.btn.danger{background:var(--red-soft);color:var(--red)}
+.btn.sm{height:28px;padding:0 10px;font-size:12px;border-radius:8px}
+.btn.lg{height:42px;padding:0 22px;font-size:14px;border-radius:11px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+/* 徽标 */
+.badge{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 9px;border-radius:999px;font-size:11.5px;font-weight:500;white-space:nowrap}
+.badge.gray{background:#F0F3F9;color:var(--ink2)}
+.badge.brand{background:var(--brand);color:#fff}
+.badge.soft-brand{background:var(--brand);color:#fff}
+.badge.green{background:var(--green-soft);color:var(--green)}
+.badge.amber{background:var(--amber-soft);color:#B87A0A}
+.badge.red{background:var(--red-soft);color:var(--red)}
+.badge.cyan{background:var(--cyan-soft);color:var(--cyan)}
+.badge.purple{background:var(--purple-soft);color:var(--purple)}
+.badge.dot::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+/* 卡片 */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm)}
+.card-h{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 0}
+.card-t{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.card-t svg{color:var(--brand)}
+.card-b{padding:14px 16px 16px}
+/* 表格 */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:12px;font-weight:500;color:var(--ink3);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line2);white-space:nowrap}
+.tbl td{padding:10px;font-size:12.5px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr{transition:.12s}
+.tbl tbody tr:hover{background:#F7FAFF}
+/* 标签页 */
+.tabs{display:flex;gap:4px;background:#EEF2F9;border-radius:10px;padding:4px}
+.tabs button{border:none;background:transparent;height:28px;padding:0 14px;border-radius:8px;font-size:12.5px;color:var(--ink2);cursor:pointer;transition:.15s}
+.tabs button.on{background:#fff;color:var(--brand);font-weight:600;box-shadow:var(--shadow-sm)}
+.tabline{display:flex;gap:18px;border-bottom:1px solid var(--line)}
+.tabline button{border:none;background:none;font-size:13px;color:var(--ink2);padding:9px 2px;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;transition:.15s}
+.tabline button.on{color:var(--brand);font-weight:600;border-color:var(--brand)}
+/* 输入 */
+.inp,.sel{height:32px;border:1px solid var(--line);border-radius:9px;padding:0 10px;font-size:12.5px;color:var(--ink);background:#fff;outline:none;transition:.15s}
+.inp:focus,.sel:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(43,109,232,.13)}
+.inp.wide{min-width:220px}
+.sel{min-width:110px;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2393A1B8' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;padding-right:26px}
+/* 滚动条 */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:#C9D3E4;border-radius:8px}
+::-webkit-scrollbar-track{background:transparent}
+/* 星星 */
+.stars{display:inline-flex;color:#F5A623;font-size:12px;letter-spacing:1px}
+/* 环形进度 */
+.donut{position:relative;width:64px;height:64px;flex:none}
+.donut svg{transform:rotate(-90deg)}
+.donut .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;font-size:16px}
+.donut .val small{font-size:9px;color:var(--ink3);font-weight:500}
+/* ============ 设备切换器 ============ */
+#stage{min-height:100vh;padding:0 24px 40px;transition:.3s}
+#stage.mobile-mode{padding:0;display:flex;justify-content:center;background:#DFE6F1}
+#deviceSwitcher{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:999;display:flex;align-items:center;gap:8px;background:#16233D;border-radius:16px;padding:7px 10px;box-shadow:0 16px 44px rgba(8,18,44,.4);border:1px solid rgba(255,255,255,.08)}
+#deviceSwitcher button{border:none;background:transparent;color:#AEBBD6;height:42px;padding:0 20px;border-radius:12px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:9px;transition:.15s;letter-spacing:.3px}
+#deviceSwitcher button.on{background:linear-gradient(135deg,#2B6DE8,#3D7BEF);color:#fff;box-shadow:0 8px 20px -6px rgba(43,109,232,.8)}
+#deviceSwitcher button:hover:not(.on){background:rgba(255,255,255,.08);color:#fff}
+#deviceSwitcher .seg{font-size:12px;color:#5F6E8C;padding:0 4px}
+#deviceSwitcher small{font-size:11px;color:#93A1B8;padding:0 8px}
+/* ============ 登录页 ============ */
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:radial-gradient(1100px 600px at 15% -10%,rgba(43,109,232,.28),transparent 60%),radial-gradient(900px 500px at 100% 10%,rgba(14,155,216,.22),transparent 55%),linear-gradient(160deg,#0E2147 0%,#132C5E 55%,#0E2147 100%)}
+#loginScreen .glow{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;pointer-events:none}
+#loginScreen .g1{width:420px;height:420px;background:#2B6DE8;top:-120px;left:-80px}
+#loginScreen .g2{width:360px;height:360px;background:#0E9BD8;bottom:-120px;right:-60px}
+.login-wrap{position:relative;z-index:2;width:min(1080px,92vw);display:flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:24px;backdrop-filter:blur(6px);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.login-left{flex:1.15;padding:54px 52px;color:#fff}
+.login-right{flex:1;padding:54px 48px;background:#fff}
+.login-logo{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;letter-spacing:.5px}
+.login-logo .logo-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#5C9DFF,#2B6DE8);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -6px rgba(92,157,255,.7)}
+.login-left h1{font-size:30px;font-weight:700;line-height:1.3;margin:38px 0 14px}
+.login-left p{font-size:14px;color:#B9C8E8;max-width:400px;line-height:1.8}
+.login-feats{margin-top:34px;display:flex;flex-direction:column;gap:14px}
+.login-feats .f{display:flex;gap:12px;align-items:flex-start}
+.login-feats .f i{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex:none}
+.login-feats .f b{font-size:13.5px}
+.login-feats .f span{font-size:12px;color:#9FB0D8}
+.login-role-tag{margin-top:34px;display:flex;gap:8px}
+.login-role-tag span{font-size:11.5px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.1);color:#C7D6F2;border:1px solid rgba(255,255,255,.15)}
+.login-right h2{font-size:20px;font-weight:700}
+.login-right .sub{font-size:12.5px;color:var(--ink3);margin:4px 0 22px}
+.login-acc{margin-bottom:14px}
+.login-acc .lb{font-size:12px;color:var(--ink2);margin-bottom:6px;font-weight:500}
+.login-acc .inp{width:100%;height:40px;border-radius:10px;padding:0 12px;font-size:13px}
+.demo-box{margin-top:22px;border:1px dashed var(--line);border-radius:12px;padding:12px 14px;background:#F8FAFF}
+.demo-box b{font-size:12.5px}
+.demo-box .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.demo-box .rolebtn{flex:1;min-width:88px;height:44px;border:1px solid var(--line);background:#fff;border-radius:10px;cursor:pointer;text-align:center;padding:5px 6px;transition:.15s}
+.demo-box .rolebtn:hover{border-color:var(--brand);box-shadow:0 4px 12px -4px rgba(43,109,232,.3)}
+.demo-box .rolebtn b{font-size:12.5px;display:block}
+.demo-box .rolebtn span{font-size:10.5px;color:var(--ink3)}
+.login-submit{margin-top:16px;width:100%;height:44px;font-size:14px}
+.login-hint{margin-top:14px;text-align:center;font-size:11.5px;color:var(--ink3)}
+.login-foot{margin-top:26px;text-align:center;font-size:11px;color:var(--ink3);border-top:1px solid var(--line2);padding-top:16px}
+/* ============ PC 外壳 ============ */
+#pcShell{display:flex;height:100vh;overflow:hidden;max-width:1680px;margin:0 auto}
+.sidebar{width:216px;flex:none;background:linear-gradient(180deg,#12264D,#0E1E3F);color:#C6D3EE;display:flex;flex-direction:column;position:relative}
+.sidebar .logo{display:flex;align-items:center;gap:9px;padding:18px 18px 14px;color:#fff;border-bottom:1px solid rgba(255,255,255,.07)}
+.sidebar .logo .logo-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#5C9DFF,#2B6DE8);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 8px 20px -6px rgba(92,157,255,.65)}
+.sidebar .logo b{font-size:15px;letter-spacing:.4px}
+.sidebar .logo small{font-size:10px;color:#7E92BB;display:block;margin-top:1px}
+.side-nav{flex:1;overflow-y:auto;padding:12px 10px}
+.side-nav .group{font-size:10.5px;color:#5F7199;letter-spacing:1px;padding:14px 10px 6px}
+.side-nav a{display:flex;align-items:center;gap:10px;height:38px;padding:0 11px;border-radius:10px;color:#A9B9DC;font-size:13px;cursor:pointer;transition:.14s;margin-bottom:2px;text-decoration:none}
+.side-nav a svg{width:17px;height:17px}
+.side-nav a:hover{background:rgba(255,255,255,.06);color:#fff}
+.side-nav a.on{background:linear-gradient(135deg,#2B6DE8,#2E7CF0);color:#fff;box-shadow:0 8px 18px -8px rgba(43,109,232,.8)}
+.side-nav a .cnt{margin-left:auto;background:rgba(255,255,255,.16);font-size:10.5px;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.side-nav a.on .cnt{background:rgba(255,255,255,.25)}
+.sidebar .sb-foot{padding:14px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px}
+.sb-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#F59E0B,#F7C04A);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex:none}
+.sb-avatar.d2{background:linear-gradient(135deg,#8B5CF6,#A78BFA)}
+.sb-user b{font-size:12.5px;color:#fff;display:block;line-height:1.3}
+.sb-user span{font-size:10.5px;color:#7E92BB}
+.pc-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.pc-top{height:54px;flex:none;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 22px;gap:16px}
+.pc-top .crumb{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.pc-top .crumb .sep{color:var(--ink3);font-weight:400}
+.pc-top .spacer{flex:1}
+.pc-top .weather-chip{display:flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:9px;background:#F4F8FF;border:1px solid #E1EBFF;font-size:12px;color:#2457B3}
+.pc-top .iconbtn{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink2);cursor:pointer;position:relative;transition:.15s}
+.pc-top .iconbtn:hover{color:var(--brand);border-color:var(--brand)}
+.pc-top .iconbtn .dot{position:absolute;top:6px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--red);border:2px solid #fff}
+.pc-body{flex:1;overflow-y:auto;padding:20px 24px 60px}
+.page-title{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.page-title h2{font-size:19px;font-weight:700}
+.page-title p{font-size:12px;color:var(--ink3);margin-top:3px}
+/* ============ 通用数据模块 ============ */
+.kpis{display:grid;gap:14px}
+.kpis.c4{grid-template-columns:repeat(4,1fr)}
+.kpis.c5{grid-template-columns:repeat(5,1fr)}
+.kpis.c3{grid-template-columns:repeat(3,1fr)}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm)}
+.kpi .k-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.kpi .k-label{font-size:12px;color:var(--ink3)}
+.kpi .k-val{font-size:23px;font-weight:700;margin:2px 0;letter-spacing:-.3px}
+.kpi .k-sub{font-size:11px;color:var(--ink3);display:flex;align-items:center;gap:5px}
+.kpi .k-trend{font-size:11px;font-weight:600}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-2-1{display:grid;grid-template-columns:1.6fr 1fr;gap:14px}
+.grid-1-2{display:grid;grid-template-columns:1fr 1.6fr;gap:14px}
+.chartbar{display:flex;align-items:flex-end;gap:10px;height:150px;padding:8px 4px 0}
+.chartbar .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;height:100%;justify-content:flex-end}
+.chartbar .bar .v{width:100%;max-width:34px;border-radius:6px 6px 3px 3px;background:linear-gradient(180deg,#5C9DFF,#2B6DE8);position:relative;min-height:6px;transition:.3s}
+.chartbar .bar .v.alt{background:linear-gradient(180deg,#F0A95B,#F59E0B)}
+.chartbar .bar .v .tip{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--ink2);white-space:nowrap}
+.chartbar .bar span{font-size:10.5px;color:var(--ink3)}
+.legend{display:flex;gap:14px;font-size:11px;color:var(--ink2);align-items:center}
+.legend i{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:5px}
+/* 进度条 */
+.progress{height:7px;border-radius:6px;background:#EEF2F8;overflow:hidden}
+.progress i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5C9DFF,#2B6DE8)}
+.progress.g i{background:linear-gradient(90deg,#4CCEA3,#17A46E)}
+.progress.a i{background:linear-gradient(90deg,#F7C04A,#F59E0B)}
+.progress.r i{background:linear-gradient(90deg,#F07E7E,#E5484D)}
+/* ============ 地图模拟 ============ */
+.mapbox{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:
+  radial-gradient(circle at 18% 30%,rgba(255,255,255,.5) 0,transparent 18%),
+  linear-gradient(160deg,#DFEAF6,#CFDDEB)}
+.mapbox .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(120,160,210,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,210,.18) 1px,transparent 1px);background-size:34px 34px}
+.mapbox .road{position:absolute;background:rgba(255,255,255,.85);border-radius:3px;box-shadow:0 1px 2px rgba(60,90,140,.15)}
+.mapbox .road.h{height:7px}
+.mapbox .road.v{width:7px}
+.mapbox .rd-y{background:rgba(255,214,130,.9)}
+.mapbox .river{position:absolute;background:rgba(110,170,225,.5);border-radius:50%}
+.mapbox .area-tag{position:absolute;font-size:10.5px;color:#6E86AC;font-weight:600;letter-spacing:1px;background:rgba(255,255,255,.55);padding:2px 8px;border-radius:6px}
+.map-pin{position:absolute;transform:translate(-50%,-50%);z-index:3}
+.map-pin .dot{width:13px;height:13px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,20,60,.35)}
+.map-pin .plabel{position:absolute;top:14px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10.5px;font-weight:600;background:rgba(255,255,255,.92);padding:1px 7px;border-radius:6px;box-shadow:0 2px 6px rgba(0,20,60,.12);color:var(--ink)}
+.map-pin small{display:block;font-size:9.5px;font-weight:400;color:var(--ink3)}
+.map-car{position:absolute;transform:translate(-50%,-50%);z-index:4;transition:.5s}
+.map-car .car-body{width:40px;height:24px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,20,60,.25);border:2px solid #fff}
+.map-car .car-body svg{color:#2B6DE8}
+.route-line{position:absolute;z-index:2;height:4px;border-radius:4px;background:linear-gradient(90deg,rgba(43,109,232,.85),rgba(76,141,255,.85));box-shadow:0 0 0 0 rgba(43,109,232,.3)}
+.route-line::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 12px,rgba(255,255,255,.8) 12px 20px);border-radius:4px;animation:dash 1.2s linear infinite}
+@keyframes dash{to{background-position:20px 0}}
+.route-line.alt1{background:linear-gradient(90deg,rgba(245,158,11,.85),rgba(247,192,74,.9))}
+.route-line.alt2{background:linear-gradient(90deg,rgba(14,155,216,.8),rgba(80,190,235,.9))}
+.route-line.done{background:linear-gradient(90deg,rgba(23,164,110,.9),rgba(76,206,163,.95))}
+.route-line.done::after{background:repeating-linear-gradient(90deg,transparent 0 14px,rgba(255,255,255,.55) 14px 22px);animation:none}
+.route-line.risk{background:linear-gradient(90deg,rgba(229,72,77,.9),rgba(247,126,130,.95))}
+.route-line.risk::after{background:repeating-linear-gradient(90deg,transparent 0 10px,rgba(255,255,255,.7) 10px 18px)}
+.map-pulse{position:absolute;z-index:1;width:14px;height:14px;border-radius:50%;background:rgba(245,158,11,.4);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.6);opacity:0}}
+/* ============ 通用小件 ============ */
+.avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex:none}
+.avatar.a1{background:linear-gradient(135deg,#5C9DFF,#2B6DE8)}
+.avatar.a2{background:linear-gradient(135deg,#4CCEA3,#17A46E)}
+.avatar.a3{background:linear-gradient(135deg,#F7C04A,#F59E0B)}
+.avatar.a4{background:linear-gradient(135deg,#B08BFF,#8B5CF6)}
+.avatar.a5{background:linear-gradient(135deg,#6FC9F0,#0E9BD8)}
+.avatar.lg{width:44px;height:44px;font-size:16px}
+.switch{position:relative;width:34px;height:19px;border-radius:999px;background:#CBD5E4;cursor:pointer;transition:.18s;flex:none}
+.switch.on{background:var(--brand)}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.switch.on::after{left:17px}
+/* 风险提示条 */
+.alertbar{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:12px;font-size:12.5px}
+.alertbar.red{background:var(--red-soft);color:#B52B2F;border:1px solid #F6CFD0}
+.alertbar.amber{background:var(--amber-soft);color:#A86A08;border:1px solid #F6E1B8}
+.alertbar.cyan{background:var(--cyan-soft);color:#0B6E9C;border:1px solid #C4E5F5}
+/* ============ 手机壳 ============ */
+#mobileShell{display:flex;justify-content:center;padding:26px 0 90px}
+.phone{width:392px;background:#fff;border-radius:42px;border:10px solid #0E1830;box-shadow:0 40px 90px rgba(10,25,60,.35);overflow:hidden;position:relative;height:860px;display:flex;flex-direction:column}
+.phone .notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:118px;height:26px;background:#0E1830;border-radius:0 0 18px 18px;z-index:60}
+.phone-screen{flex:1;overflow-y:auto;overflow-x:hidden;background:#F4F6FB;position:relative;display:flex;flex-direction:column}
+.m-status{height:34px;flex:none;background:#fff;display:flex;align-items:flex-end;justify-content:space-between;padding:6px 22px 4px;font-size:12px;font-weight:600;color:var(--ink)}
+.m-status .btns{display:flex;gap:6px;align-items:center}
+.m-status .btns i{display:inline-block;width:16px;height:11px;border-radius:3px;background:#16233D;position:relative}
+.m-status .btns i::after{content:"";position:absolute;left:2px;right:2px;top:2px;bottom:2px;border-radius:2px;background:#fff}
+.m-nav{flex:none;background:#fff;padding:10px 18px;display:flex;align-items:center;gap:10px}
+.m-nav .m-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.m-tabbar{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line2);display:flex;padding:8px 6px calc(12px);z-index:50}
+.m-tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:var(--ink3);text-decoration:none;cursor:pointer;padding:4px 0;border-radius:10px;transition:.15s}
+.m-tabbar a.on{color:var(--brand)}
+.m-tabbar a .tab-ico{width:42px;height:26px;border-radius:9px;display:flex;align-items:center;justify-content:center;transition:.15s}
+.m-tabbar a.on .tab-ico{background:var(--brand);color:#fff;box-shadow:0 6px 14px -5px rgba(43,109,232,.6)}
+.m-view{flex:1;padding:14px 14px 92px;overflow-y:auto}
+/* 手机组件 */
+.m-card{background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 18px -6px rgba(16,34,66,.07);border:1px solid #EDF1F8;margin-bottom:12px}
+.m-card .mcard-t{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.m-card .mcard-t b{font-size:14px;display:flex;align-items:center;gap:7px}
+.m-step{display:flex;gap:0;position:relative}
+.m-step .s-line{position:absolute;left:15px;top:26px;bottom:26px;width:2px;background:#E4EAF3}
+.m-step .step{position:relative;display:flex;gap:12px;padding-bottom:16px}
+.m-step .s-dot{width:32px;height:32px;border-radius:50%;background:#fff;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;z-index:2;flex:none;color:var(--ink3)}
+.m-step .step.done .s-dot{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+.m-step .step.cur .s-dot{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 0 0 5px rgba(43,109,232,.15)}
+.m-step .step.pend .s-dot{background:#fff;border-color:var(--line);color:var(--ink3)}
+.m-step .s-info b{font-size:13px}
+.m-step .s-info span{font-size:11.5px;color:var(--ink3)}
+.m-btn{width:100%;height:46px;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+.m-btn.primary{background:linear-gradient(135deg,#4C8DFF,#2B6DE8);color:#fff;box-shadow:0 10px 24px -8px rgba(43,109,232,.7)}
+.m-btn.primary:active{transform:scale(.98)}
+.m-btn.green{background:linear-gradient(135deg,#28C587,#17A46E);color:#fff;box-shadow:0 10px 24px -8px rgba(23,164,110,.6)}
+.m-btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink2)}
+.m-btn.amber{background:linear-gradient(135deg,#F7C04A,#F59E0B);color:#fff}
+.m-btn:disabled{opacity:.45}
+.m-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;padding:16px 16px 24px;z-index:70;box-shadow:0 -12px 40px rgba(10,25,60,.18);animation:sheetUp .25s ease}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.m-sheet .handle{width:40px;height:4px;border-radius:4px;background:#DCE3EE;margin:2px auto 14px}
+.m-sheet .m-sheet-t{font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.mask{position:absolute;inset:0;background:rgba(12,24,50,.4);z-index:65;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}}
+@keyframes sheetUp{from{transform:translateY(60px);opacity:0}}
+/* 底部动作条 */
+.action-bar{position:sticky;bottom:0;display:flex;gap:10px;padding:10px 0;background:linear-gradient(0deg,#F4F6FB 80%,transparent)}
+/* 排班周历 */
+.sched-head{display:grid;grid-template-columns:70px repeat(7,1fr);gap:6px;margin-bottom:10px}
+.sched-head>div{text-align:center;font-size:11px;color:var(--ink3);padding:6px 0 2px}
+.sched-head .dow{font-weight:600;color:var(--ink2)}
+.sched-head .dnum{width:30px;height:30px;line-height:30px;border-radius:50%;margin:3px auto 0;font-size:13px;font-weight:700}
+.sched-head .dnum.today{background:var(--brand);color:#fff}
+.sched-grid{display:grid;grid-template-columns:70px repeat(7,1fr);gap:6px}
+.sched-grid .s-driver{font-size:11px;font-weight:600;color:var(--ink2);display:flex;align-items:center;justify-content:flex-end;padding-right:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sched-cell{min-height:52px;border-radius:10px;border:1px dashed #E4EAF3;background:#FBFCFE;position:relative;padding:4px}
+.sched-cell .slot{font-size:10px;line-height:1.3;padding:3px 5px;border-radius:7px;margin-bottom:3px;font-weight:600}
+.slot.am{background:#E3EDFF;color:#1B4FC0}
+.slot.pm{background:#E3F7EE;color:#0F7A52}
+.slot.night{background:#F1EAFE;color:#6D4FC4}
+.slot.off{background:#FDEBEC;color:#C03338;text-decoration:line-through}
+.slot.rest{background:#F5F7FB;color:#93A1B8}
+.slot.selected{outline:2px solid var(--brand);outline-offset:1px}
+.sched-legend{display:flex;gap:14px;font-size:11px;color:var(--ink2);align-items:center}
+.sched-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:-1px}
+.shift-tag{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 9px;border-radius:999px;font-size:11px;font-weight:600}
+.shift-tag.am{background:#E3EDFF;color:#1B4FC0}
+.shift-tag.pm{background:#E3F7EE;color:#0F7A52}
+.shift-tag.night{background:#F1EAFE;color:#6D4FC4}
+.shift-tag.rest{background:#F0F3F9;color:var(--ink2)}
+/* 行程信息行 */
+.trip-line{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line2)}
+.trip-line:last-child{border-bottom:none}
+.trip-line .t-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.trip-line .t-time{font-size:12px;font-weight:700;flex:none;width:52px}
+.trip-line .t-name{flex:1;min-width:0;font-size:12.5px;font-weight:600}
+.trip-line .t-sub{flex:1;min-width:0;font-size:11px;color:var(--ink3)}
+.trip-line .t-tag{font-size:10.5px;flex:none}
+/* 标签列表行 */
+.kv{display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;border-bottom:1px dashed var(--line2)}
+.kv:last-child{border-bottom:none}
+.kv span{color:var(--ink3)}
+.kv b{font-weight:600;text-align:right;max-width:64%}
+/* 绩效环 */
+.score-ring{width:96px;height:96px;position:relative;flex:none}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring .sc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-ring .sc b{font-size:24px}
+.score-ring .sc span{font-size:10px;color:var(--ink3)}
+/* 排名条 */
+.rank-row{display:flex;align-items:center;gap:10px;padding:9px 8px;border-radius:11px;transition:.12s;cursor:pointer}
+.rank-row:hover{background:#F6F9FF}
+.rank-row .no{width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex:none}
+.rank-row .no.top{background:linear-gradient(135deg,#F7C04A,#F59E0B);color:#fff}
+.rank-row .no.mid{background:#EEF2F8;color:var(--ink2)}
+/* 徽章数值卡 */
+.metric-chip{background:#F6F9FF;border:1px solid #E7EDFA;border-radius:12px;padding:10px 12px;text-align:center}
+.metric-chip b{font-size:17px;display:block}
+.metric-chip span{font-size:10.5px;color:var(--ink3)}
+
+/* ============ AI 一键配载弹窗 ============ */
+.modal-mask{position:fixed;inset:0;background:rgba(8,18,42,.55);backdrop-filter:blur(3px);z-index:1000;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s}
+.ai-modal{width:700px;max-width:92vw;max-height:88vh;background:#fff;border-radius:20px;box-shadow:0 30px 90px rgba(6,18,44,.45);display:flex;flex-direction:column;overflow:hidden;animation:popIn .28s ease}
+@keyframes popIn{from{transform:translateY(20px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+.ai-modal .am-head{display:flex;align-items:center;gap:12px;padding:18px 22px;background:linear-gradient(135deg,#0C2454,#16346E);flex:none}
+.ai-modal .am-head .spark{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#5C9DFF,#2B6DE8);display:flex;align-items:center;justify-content:center;color:#fff;flex:none;box-shadow:0 10px 24px -8px rgba(92,157,255,.8)}
+.ai-modal .am-head .t{color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ai-modal .am-head .s{font-size:11px;color:#A9BCE0;margin-top:3px}
+.ai-modal .am-body{padding:20px 22px;overflow-y:auto;flex:1;min-height:0}
+.ai-modal .am-foot{padding:14px 22px;border-top:1px solid var(--line2);display:flex;justify-content:flex-end;gap:10px;background:#F8FAFF;flex:none}
+/* 思考过程 */
+.think-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.think-head .th-ic{width:30px;height:30px;border-radius:10px;background:#EEF4FF;color:var(--brand);display:flex;align-items:center;justify-content:center;animation:spinPulse 1.2s infinite}
+.think-head b{font-size:14px}
+.think-head span{font-size:11.5px;color:var(--ink3);display:block;margin-top:2px}
+.think-log{display:flex;flex-direction:column;gap:7px}
+.think-line{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:11px;background:#F6F9FF;border:1px solid #E7EDFA;font-size:12.5px;color:var(--ink2);opacity:0;transform:translateX(-6px);transition:.28s}
+.think-line.show{opacity:1;transform:none}
+.think-line .tl-ico{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:none;background:#E3EDFF;color:var(--brand);font-size:11px;font-weight:700}
+.think-line.doing{border-color:var(--brand);background:#EEF4FF}
+.think-line.doing .tl-ico{background:var(--brand);color:#fff;animation:spinPulse 1s infinite}
+.think-line.done{border-color:#CDEBDD;background:#F1FBF6}
+.think-line.done .tl-ico{background:var(--green);color:#fff}
+.think-line .tl-k{font-weight:600;color:var(--ink)}
+.think-line .tl-v{color:var(--ink3)}
+.think-dot{width:7px;height:7px;border-radius:50%;background:var(--brand);display:inline-block;margin-left:4px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+@keyframes spinPulse{50%{transform:scale(1.14)}}
+.think-progress{height:6px;border-radius:6px;background:#EEF2F8;overflow:hidden;margin-top:16px}
+.think-progress i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5C9DFF,#2B6DE8);transition:width .35s}
+.think-note{margin-top:12px;font-size:11.5px;color:var(--ink3);text-align:center}
+/* 结果视图 */
+.ai-result-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ai-result-head .rh-ic{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#28C587,#17A46E);display:flex;align-items:center;justify-content:center;color:#fff;flex:none;box-shadow:0 10px 24px -8px rgba(23,164,110,.6)}
+.ai-result-head b{font-size:16px}
+.ai-result-head span{font-size:11.5px;color:var(--ink3);display:block;margin-top:2px}
+.ai-sum{border:1px solid #D9E7FF;background:linear-gradient(135deg,#F2F7FF,#F7FAFF);border-radius:14px;padding:13px 16px;margin-bottom:14px}
+.ai-sum .row{display:flex;gap:22px;flex-wrap:wrap}
+.ai-sum .cell{font-size:11.5px;color:var(--ink3)}
+.ai-sum .cell b{display:block;font-size:18px;color:var(--ink);margin-top:2px;font-weight:700}
+.ai-sum .cell b.g{color:var(--green)}
+.driver-plan{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:#fff}
+.driver-plan .dp-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#F8FAFF;border-bottom:1px solid var(--line2)}
+.driver-plan .dp-head .dp-info b{font-size:13.5px;display:block}
+.driver-plan .dp-head .dp-info span{font-size:11.5px;color:var(--ink3)}
+.driver-plan .dp-body{padding:12px 14px}
+.driver-plan .dp-orders{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+.driver-plan .dp-orders .o{border:1px solid #D8E4F7;background:#F4F8FF;border-radius:8px;padding:4px 9px;font-size:11.5px;color:var(--ink2)}
+.driver-plan .dp-orders .o.hot{border-color:#F7D9A8;background:#FFF7E8;color:#A86A08}
+.driver-plan .dp-meta{display:flex;gap:16px;font-size:11.5px;color:var(--ink3);margin-bottom:9px;flex-wrap:wrap}
+.driver-plan .dp-meta b{color:var(--ink);font-weight:600}
+.driver-plan .dp-reason{background:linear-gradient(135deg,#EEF4FF,#F6FAFF);border:1px solid #D9E7FF;border-radius:11px;padding:10px 12px;font-size:12px;color:var(--ink2);line-height:1.7}
+.driver-plan .dp-reason .dr-t{color:var(--brand);font-size:11.5px;font-weight:700;display:flex;align-items:center;gap:5px;margin-bottom:4px}
+/* 途经点加工厂时间轴 */
+.dp-stops{margin:11px 0 12px;padding:11px 13px;background:#FAFBFE;border:1px solid var(--line2);border-radius:11px}
+.ds-title{font-size:11.5px;font-weight:700;color:var(--ink2);display:flex;align-items:center;gap:5px;margin-bottom:9px}
+.ds-title svg{color:var(--brand)}
+.ds-step{position:relative;display:flex;gap:10px;padding-bottom:10px}
+.ds-step:last-child{padding-bottom:0}
+.ds-node{width:22px;height:22px;border-radius:50%;background:#E3EDFF;color:#1B4FC0;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;z-index:2}
+.ds-step:first-child .ds-node{background:var(--brand);color:#fff;box-shadow:0 0 0 4px rgba(43,109,232,.14)}
+.ds-line{position:absolute;left:10px;top:24px;bottom:2px;width:2px;background:#DCE6F5}
+.ds-info{flex:1;min-width:0}
+.ds-info b{font-size:12.5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.ds-info .ds-area{font-size:11px;color:var(--ink3);font-weight:400;background:#F0F3F9;border-radius:6px;padding:1px 7px}
+.ds-info span{font-size:11.5px;color:var(--ink3);display:block;margin-top:2px}
+.ai-unassign{margin-top:14px;border:1px dashed #F0C9CB;background:#FFF7F7;border-radius:12px;padding:11px 14px;font-size:12px;color:#B52B2F}
+.ai-unassign b{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:12.5px}
+/* 司机块内 AI 简略分析 */
+.ai-brief{margin-top:9px;background:linear-gradient(135deg,#EEF4FF,#F8FBFF);border:1px solid #D9E7FF;border-radius:10px;padding:8px 10px;font-size:11.5px;color:var(--ink2)}
+.ai-brief .ab-head{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--brand);margin-bottom:4px}
+.ai-brief .ab-score{margin-left:auto;font-size:10px;color:var(--green);background:var(--green-soft);border-radius:999px;padding:1px 7px;font-weight:600}
+.ai-brief .ab-score.warn{color:#B87A0A;background:var(--amber-soft)}
+.ai-brief .ab-points{display:flex;flex-direction:column;gap:2px;line-height:1.55}
+.ai-brief .ab-points span{color:var(--ink3)}
+.ai-brief .ab-suggest{margin-top:4px;padding-top:4px;border-top:1px dashed #D9E7FF;line-height:1.55}
+.ai-brief .ab-suggest b{color:var(--ink);font-weight:600}
+/* 配载更新后的成功横幅 */
+.ai-success-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#E9FBF2,#DFF7EA);border:1px solid #BCE9D2;color:#0F7A52;font-size:12.5px;margin-bottom:14px;animation:popIn .3s ease}
+</style>
+</head>
+<body>
+
+<!-- ============ 图标库 ============ -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M1 7h13v10H1z"/><path d="M14 10h4l4 4v3h-8z"/><circle cx="6" cy="18" r="1.8"/><circle cx="18" cy="18" r="1.8"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.8-3.5 3.4-5 6.5-5s5.7 1.5 6.5 5"/><circle cx="17" cy="9" r="2.6"/><path d="M16 15c3 .2 5 1.7 5.7 4.5"/></symbol>
+  <symbol id="i-fleet" viewBox="0 0 24 24"><rect x="2" y="6" width="13" height="9" rx="2"/><path d="M15 10h4l3 3v2h-7z"/><path d="M2 18h3M14 18h3M2 6l3-3h8l2 3"/><circle cx="5.5" cy="18" r="1.3"/><circle cx="16.5" cy="18" r="1.3"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.2 8.5-7 10-3.8-1.5-7-5-7-10V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-log" viewBox="0 0 24 24"><path d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5h16M7 12h10M10 19h4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5M7 10l5-5 5 5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-11"/></symbol>
+  <symbol id="i-check-c" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6 3h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 5a2 2 0 0 1 3-2z"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 7h4l2-2h4l2 2h4a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-sig" viewBox="0 0 24 24"><path d="M3 17c4 1 14-2 18-9M4 20c4-2 12-8 16-12M3 14c3 0 6-2 9-5"/></symbol>
+  <symbol id="i-nav" viewBox="0 0 24 24"><path d="m12 2 3.2 6.8L22 12l-6.8 3.2L12 22l-3.2-6.8L2 12l6.8-3.2z"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H15a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h6.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4M12 17.5v.2"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9 6.3 6.3M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1 6.3 17.7M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1 0-8 5.5 5.5 0 0 1 10.7 1.3A3.5 3.5 0 0 1 17 18z"/></symbol>
+  <symbol id="i-rain" viewBox="0 0 24 24"><path d="M7 16a4 4 0 0 1 0-8 5.5 5.5 0 0 1 10.7 1.3A3.5 3.5 0 0 1 17 16z"/><path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2"/></symbol>
+  <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 8h9a3 3 0 1 0-3-3M3 12h13a3 3 0 1 1-3 3M3 16h6a2.5 2.5 0 1 1-2.5 2.5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 17l-5.4 2.8 1.1-6.1L3.2 9.4l6.1-.8z"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24"><path d="M3 17 5 7l5 4 2-6 2 6 5-4 2 10z"/><path d="M3 21h18"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 8l-4 4 4 4M6 12h10"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.9-4 3.9-6 7.5-6s6.6 2 7.5 6"/></symbol>
+  <symbol id="i-task" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 9 2 2 4-5M8 15h8"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.6M4 3v4h4"/><path d="M12 8v4l3 2"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 5H4a6 6 0 0 0 6 6M16 5h4a6 6 0 0 1-6 6"/><path d="M12 15v4M8 21h8M10 19h4"/></symbol>
+  <symbol id="i-loc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 1-7 7 7 7 0 0 1-7-7 7 7 0 0 1 7-7 7 7 0 0 1 7 7z"/><circle cx="12" cy="12" r="9"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 13a8 8 0 0 0 14.9 3"/><path d="M20 4v4h-4M4 20v-4h4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L20 8l-4-4L4 16z"/><path d="m13 6 4 4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5 19 12 7 19.5z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M18 13l-6 6-6-6"/></symbol>
+  <symbol id="i-gps" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="8.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12v9M12 12 4 7.5M12 12l8-4.5"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+  <symbol id="i-drag" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.4"/><circle cx="15" cy="6" r="1.4"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="9" cy="18" r="1.4"/><circle cx="15" cy="18" r="1.4"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h6M9 16h6"/></symbol>
+</svg>
+
+<!-- ============ 登录页 ============ -->
+<section id="loginScreen">
+  <div class="glow g1"></div><div class="glow g2"></div>
+  <div class="login-wrap">
+    <div class="login-left">
+      <div class="login-logo">
+        <span class="logo-mark"><svg class="ic" style="width:22px;height:22px"><use href="#i-truck"/></svg></span>
+        <span>林氏优采 · AI 智运平台<small style="display:block;font-size:10px;color:#7E92BB;letter-spacing:1px;font-weight:400">AI SMART TRANSPORTATION</small></span>
+      </div>
+      <h1>从「经验调度」<br>走向「智能运输」</h1>
+      <p>AI 智能运输平台将出库订单、地址、司机、车辆、天气与历史配送数据集中处理，自动输出订单分配与配送路线建议，让每一次派车都有据可依、可解释、可追溯。</p>
+      <div class="login-feats">
+        <div class="f"><i><svg class="ic"><use href="#i-cpu"/></svg></i><div><b>地址智能识别</b><span>自动拆分省市区 · 地理编码 · 可信度校验</span></div></div>
+        <div class="f"><i><svg class="ic"><use href="#i-route"/></svg></i><div><b>AI 智能派车 · 路线优化</b><span>时间窗 · 载重载积 · 天气拥堵 · 多方案对比</span></div></div>
+        <div class="f"><i><svg class="ic"><use href="#i-map"/></svg></i><div><b>实时运输看板 · 司机绩效</b><span>配送全程可视 · 效率量化 · 数据闭环</span></div></div>
+      </div>
+      <div class="login-role-tag"><span>调度员</span><span>运输主管</span><span>企业管理者</span><span>司机</span></div>
+    </div>
+    <div class="login-right">
+      <h2>欢迎登录</h2>
+      <p class="sub">请使用公司账号登录 AI 智运平台</p>
+      <div class="login-acc"><label class="lb">账号</label><input class="inp" value="dispatcher@linshi.com"></div>
+      <div class="login-acc"><label class="lb">密码</label><input class="inp" type="password" value="••••••••"></div>
+      <div class="flex between" style="font-size:12px;color:var(--ink3)"><span class="flex gap6"><i class="switch on"></i>记住登录状态</span><a style="color:var(--brand);cursor:pointer">忘记密码？</a></div>
+      <button class="btn primary login-submit" onclick="pcLogin()"><svg class="ic"><use href="#i-out"/></svg> 登录管理端</button>
+      <div class="demo-box">
+        <b style="display:flex;align-items:center;gap:6px"><svg class="ic" style="width:14px;height:14px;color:var(--brand)"><use href="#i-play"/></svg> 演示账号一键体验</b>
+        <div class="row">
+          <div class="rolebtn" onclick="pcLogin('dispatcher')"><b>调度员</b><span>订单分配 / 智能排单</span></div>
+          <div class="rolebtn" onclick="pcLogin('manager')"><b>运输主管</b><span>看板 / 数据 / 绩效</span></div>
+          <div class="rolebtn" onclick="pcLogin('driver')"><b>司机移动端</b><span>进入手机端</span></div>
+        </div>
+      </div>
+      <div class="login-foot">© 2026 林氏优采 · AI 智能运输平台 PRD V1.2 演示稿</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PC 端外壳 ============ -->
+<div id="pcShell" class="hidden">
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-mark"><svg class="ic" style="width:19px;height:19px"><use href="#i-truck"/></svg></span>
+      <div><b>AI 智运平台</b><small>林氏优采 · 运输管理</small></div>
+    </div>
+    <nav class="side-nav" id="sideNav">
+      <div class="group">工作台</div>
+      <a data-v="home" onclick="go('home')"><svg class="ic"><use href="#i-home"/></svg>管理首页</a>
+      <a data-v="board" onclick="go('board')"><svg class="ic"><use href="#i-map"/></svg>实时运输看板<span class="cnt">9</span></a>
+      <div class="group">调度作业</div>
+      <a data-v="orders" onclick="go('orders')"><svg class="ic"><use href="#i-box"/></svg>出库订单<span class="cnt">3</span></a>
+      <a data-v="dispatch" onclick="go('dispatch')"><svg class="ic"><use href="#i-cpu"/></svg>智能调度中心</a>
+      <div class="group">基础资料</div>
+      <a data-v="sched" onclick="go('sched')"><svg class="ic"><use href="#i-cal"/></svg>排班管理</a>
+      <a data-v="drivers" onclick="go('drivers')"><svg class="ic"><use href="#i-users"/></svg>司机管理</a>
+      <a data-v="vehicles" onclick="go('vehicles')"><svg class="ic"><use href="#i-fleet"/></svg>车辆管理</a>
+      <div class="group">绩效与分析</div>
+      <a data-v="perf" onclick="go('perf')"><svg class="ic"><use href="#i-trophy"/></svg>司机绩效</a>
+      <a data-v="analysis" onclick="go('analysis')"><svg class="ic"><use href="#i-chart"/></svg>运输数据分析</a>
+      <a data-v="audit" onclick="go('audit')"><svg class="ic"><use href="#i-log"/></svg>操作日志</a>
+    </nav>
+    <div class="sb-foot">
+      <span class="sb-avatar" id="sbAvatar">王</span>
+      <div class="sb-user grow"><b id="sbName">王调度</b><span id="sbRole">调度员 · 林氏优采仓</span></div>
+      <button class="iconbtn" style="border:none;background:none" onclick="pcLogout()"><svg class="ic" style="width:16px;height:16px;color:#7E92BB"><use href="#i-out"/></svg></button>
+    </div>
+  </aside>
+  <div class="pc-main">
+    <header class="pc-top">
+      <div class="crumb" id="pcCrumb">管理首页</div>
+      <div class="spacer"></div>
+      <div class="weather-chip"><svg class="ic" style="width:15px;height:15px"><use href="#i-rain"/></svg>佛山 阵雨 26℃</div>
+      <div class="weather-chip"><svg class="ic" style="width:15px;height:15px"><use href="#i-cloud"/></svg>广佛路况 · 轻微拥堵</div>
+      <button class="iconbtn" onclick="go('board')"><svg class="ic"><use href="#i-bell"/></svg><span class="dot"></span></button>
+      <button class="iconbtn" onclick="pcLogout()" title="退出登录"><svg class="ic"><use href="#i-out"/></svg></button>
+    </header>
+    <main class="pc-body" id="pcBody">
+      <!-- ================== 管理首页 ================== -->
+      <section class="pc-view" id="v-home">
+        <div class="page-title"><div><h2>管理首页</h2><p>今天 2026-09-19 · 佛山 · 为您汇总今日运输经营概况</p></div>
+          <div class="flex gap8"><button class="btn ghost" onclick="go('orders')"><svg class="ic"><use href="#i-download"/></svg>导入订单</button><button class="btn primary" onclick="go('dispatch')"><svg class="ic"><use href="#i-cpu"/></svg>进入智能排单</button></div></div>
+        <div class="kpis c4" style="margin-bottom:14px">
+          <div class="kpi"><div class="k-ico" style="background:#E3EDFF;color:var(--brand)"><svg class="ic"><use href="#i-box"/></svg></div><div class="k-label">今日出库订单</div><div class="k-val num">128<span style="font-size:13px;color:var(--ink3);font-weight:500"> 单</span></div><div class="k-sub"><span class="k-trend brand">待排 46</span><span>·</span><span>已分配 82</span></div></div>
+          <div class="kpi"><div class="k-ico" style="background:#E3F7EE;color:var(--green)"><svg class="ic"><use href="#i-truck"/></svg></div><div class="k-label">配送中车辆</div><div class="k-val num">32<span style="font-size:13px;color:var(--ink3);font-weight:500"> 辆</span></div><div class="k-sub"><span class="k-trend green">待发车 5</span><span>·</span><span>已完成 8</span></div></div>
+          <div class="kpi"><div class="k-ico" style="background:#FEF3DE;color:var(--amber)"><svg class="ic"><use href="#i-clock"/></svg></div><div class="k-label">今日预计准时率</div><div class="k-val num">94.2%</div><div class="k-sub"><span class="k-trend green">↑ 1.8%</span><span>较上周同期</span></div></div>
+          <div class="kpi"><div class="k-ico" style="background:#FDEBEC;color:var(--red)"><svg class="ic"><use href="#i-alert"/></svg></div><div class="k-label">延迟风险订单</div><div class="k-val num">3<span style="font-size:13px;color:var(--ink3);font-weight:500"> 单</span></div><div class="k-sub"><span class="k-trend red">>10min: 2</span><span>·</span><span>>30min: 1</span></div></div>
+        </div>
+        <div class="grid-2" style="margin-bottom:14px">
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-chart"/></svg>近 7 日运输趋势</div>
+              <div class="tabs"><button class="on">订单量</button><button>准时率</button><button>装载率</button></div></div>
+            <div class="card-b">
+              <div class="chartbar">
+                <div class="bar"><div class="v" style="height:36%"><span class="tip">86</span></div><span>周一</span></div>
+                <div class="bar"><div class="v" style="height:52%"><span class="tip">112</span></div><span>周二</span></div>
+                <div class="bar"><div class="v" style="height:44%"><span class="tip">98</span></div><span>周三</span></div>
+                <div class="bar"><div class="v" style="height:62%"><span class="tip">128</span></div><span>周四</span></div>
+                <div class="bar"><div class="v" style="height:70%"><span class="tip">142</span></div><span>周五</span></div>
+                <div class="bar"><div class="v alt" style="height:55%"><span class="tip">118</span></div><span>周六</span></div>
+                <div class="bar"><div class="v alt" style="height:60%"><span class="tip">128</span></div><span>今日</span></div>
+              </div>
+              <div class="legend mt12"><span><i style="background:#2B6DE8"></i>订单量</span><span><i style="background:#F59E0B"></i>配送里程(百km)</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-map"/></svg>今日主要配送区域</div><button class="btn ghost sm">查看全部</button></div>
+            <div class="card-b">
+              <div class="mapbox" style="height:218px">
+                <div class="grid"></div>
+                <div class="area-tag" style="left:8%;top:16%">佛山·顺德</div>
+                <div class="area-tag" style="right:10%;top:24%">广州·番禺</div>
+                <div class="area-tag" style="left:20%;bottom:14%">佛山·南海</div>
+                <div class="road h" style="left:0;right:0;top:42%"></div>
+                <div class="road h" style="left:0;right:0;top:70%"></div>
+                <div class="road v" style="top:0;bottom:0;left:62%"></div>
+                <div class="road v rd-y" style="top:0;bottom:0;left:28%"></div>
+                <div class="road v" style="top:0;bottom:0;left:82%"></div>
+                <div class="map-pin" style="left:16%;top:48%"><span class="dot" style="background:#2B6DE8"></span><div class="plabel">仓<span>林氏优采仓</span></div></div>
+                <div class="map-pin" style="left:52%;top:34%"><span class="dot" style="background:#17A46E"></span><div class="plabel">8<span>待配送</span></div></div>
+                <div class="map-pin" style="left:78%;top:58%"><span class="dot" style="background:#17A46E"></span><div class="plabel">5<span>配送中</span></div></div>
+                <div class="map-pin" style="left:38%;top:76%"><span class="dot" style="background:#93A1B8"></span><div class="plabel">6<span>已完成</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2-1">
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-alert"/></svg>风险与预警</div><button class="btn ghost sm">查看全部</button></div>
+            <div class="card-b" style="padding-top:10px">
+              <div class="alertbar amber" style="margin-bottom:10px"><svg class="ic"><use href="#i-clock"/></svg><b>预计延迟 12 分钟</b><span class="grow">粤E·D8321 张师傅 · 佛山市禅城区华富路加工厂</span><span class="c3 s12">14:32 更新</span></div>
+              <div class="alertbar amber" style="margin-bottom:10px"><svg class="ic"><use href="#i-truck"/></svg><b>卸货超时 25 分钟</b><span class="grow">粤E·C5510 李师傅 · 顺德区乐从家具厂</span><span class="c3 s12">14:30 更新</span></div>
+              <div class="alertbar red"><svg class="ic"><use href="#i-rain"/></svg><b>暴雨预警 15:00-18:00</b><span class="grow">南海区 / 顺德区 · 建议调整发车时间</span><button class="btn sm" style="background:#fff;border:1px solid #F6CFD0;color:#B52B2F">查看方案</button></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-crown"/></svg>司机效率 TOP5</div></div>
+            <div class="card-b" style="padding-top:6px">
+              <div class="rank-row"><span class="no top">1</span><span class="avatar a3">张</span><span class="grow"><b class="s13">张伟</b><span class="c3 s12 block">准时率 98%</span></span><b class="num green">96.2</b></div>
+              <div class="rank-row"><span class="no top">2</span><span class="avatar a1">李</span><span class="grow"><b class="s13">李强</b><span class="c3 s12 block">准时率 96%</span></span><b class="num green">94.8</b></div>
+              <div class="rank-row"><span class="no top">3</span><span class="avatar a4">陈</span><span class="grow"><b class="s13">陈志明</b><span class="c3 s12 block">准时率 95%</span></span><b class="num green">93.5</b></div>
+              <div class="rank-row"><span class="no mid">4</span><span class="avatar a5">刘</span><span class="grow"><b class="s13">刘国华</b><span class="c3 s12 block">准时率 93%</span></span><b class="num">91.9</b></div>
+              <div class="rank-row"><span class="no mid">5</span><span class="avatar a2">周</span><span class="grow"><b class="s13">周海生</b><span class="c3 s12 block">准时率 92%</span></span><b class="num">90.3</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== 出库订单 ================== -->
+      <section class="pc-view hidden" id="v-orders">
+        <div class="page-title"><div><h2>出库订单</h2><p>ERP/WMS 自动同步 · Excel 批量导入 · 地址智能识别</p></div>
+          <div class="flex gap8"><button class="btn ghost"><svg class="ic"><use href="#i-upload"/></svg>Excel 导入</button><button class="btn ghost"><svg class="ic"><use href="#i-download"/></svg>导出数据</button><button class="btn primary"><svg class="ic"><use href="#i-plus"/></svg>手工新增</button></div></div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-b" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <div class="sel">计划发货日期 · 近3天</div>
+            <div class="sel">订单状态 · 全部</div>
+            <div class="sel">区域 · 全部</div>
+            <div class="sel">加工厂 · 全部</div>
+            <input class="inp wide" placeholder="搜索订单号 / 联系人 / 地址…">
+            <button class="btn ghost sm"><svg class="ic"><use href="#i-search"/></svg>查询</button>
+            <button class="btn ghost sm"><svg class="ic"><use href="#i-filter"/></svg>筛选</button>
+            <span class="grow"></span>
+            <span class="c3 s12">共 128 条 · 已选 <b class="brand">0</b> 条</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-box"/></svg>订单列表</div>
+            <div class="flex gap8"><div class="tabs"><button>全部 128</button><button class="on">待排单 46</button><button>配送中 24</button><button>异常 3</button></div></div></div>
+          <div class="card-b" style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th style="width:28px"><i class="switch" style="transform:scale(.75);transform-origin:left center"></i></th><th>订单号</th><th>加工厂 / 联系人</th><th>收货地址</th><th>地址可信度</th><th>货物 / 重量</th><th>送达时间窗</th><th>状态</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td></td><td class="bold">CK20260919046</td><td>顺德宏业皮革厂<br><span class="c3 s12">陈先生 1392803***</span></td><td>佛山市顺德区龙江镇…<br><span class="c3 s12">低可信度 · 需确认</span></td><td><span class="badge amber">86%</span></td><td>PU革 12卷<br><span class="c3 s12">860kg / 3.2m³</span></td><td class="s12">09-20 08:00-12:00</td><td><span class="badge amber">待校验</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+                <tr><td></td><td class="bold">CK20260919045</td><td>南海利达纺织<br><span class="c3 s12">李小姐 1362203***</span></td><td>佛山市南海区狮山镇…</td><td><span class="badge green">98%</span></td><td>棉布 8卷<br><span class="c3 s12">520kg / 2.1m³</span></td><td class="s12">09-20 09:00-12:00</td><td><span class="badge cyan">待排单</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+                <tr><td></td><td class="bold">CK20260919044</td><td>广州番禺华美布行<br><span class="c3 s12">王先生 1380098***</span></td><td>广州市番禺区南村镇…</td><td><span class="badge green">99%</span></td><td>皮革 6卷<br><span class="c3 s12">410kg / 1.8m³</span></td><td class="s12">09-20 10:00-14:00</td><td><span class="badge brand">已分配</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+                <tr><td></td><td class="bold">CK20260919043</td><td>顺德龙江家具厂<br><span class="c3 s12">刘厂长 1358876***</span></td><td>佛山市顺德区乐从镇…</td><td><span class="badge green">97%</span></td><td>布艺 10卷<br><span class="c3 s12">730kg / 2.9m³</span></td><td class="s12">09-20 08:00-11:00</td><td><span class="badge brand">已分配</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+                <tr><td></td><td class="bold">CK20260919042</td><td>三水万达皮革<br><span class="c3 s12">赵先生 1375532***</span></td><td>佛山市三水区乐平镇…</td><td><span class="badge green">95%</span></td><td>超纤 5卷<br><span class="c3 s12">360kg / 1.4m³</span></td><td class="s12">09-20 13:00-17:00</td><td><span class="badge red">地址异常</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+                <tr><td></td><td class="bold">CK20260919041</td><td>顺德金盛皮具<br><span class="c3 s12">孙小姐 1334466***</span></td><td>佛山市顺德区大良街道…</td><td><span class="badge green">99%</span></td><td>皮具 3件<br><span class="c3 s12">150kg / 0.6m³</span></td><td class="s12">09-20 14:00-18:00</td><td><span class="badge cyan">待排单</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== 智能调度中心 ================== -->
+      <section class="pc-view hidden" id="v-dispatch">
+        <div class="page-title"><div><h2>智能调度中心</h2><p>AI 智能派车 · 路线优化 · 多方案对比 · 人工可调</p></div>
+          <div class="flex gap8"><button class="btn ghost"><svg class="ic"><use href="#i-download"/></svg>导出派车单</button><button class="btn ghost"><svg class="ic"><use href="#i-file"/></svg>保存草稿</button><button class="btn primary" style="background:linear-gradient(135deg,#5C9DFF,#2B6DE8);box-shadow:0 8px 20px -6px rgba(43,109,232,.75)" onclick="openAiLoadModal()"><svg class="ic"><use href="#i-cpu"/></svg>AI 一键配载</button><button class="btn primary"><svg class="ic"><use href="#i-check"/></svg>发布任务</button></div></div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-b" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <span class="s13 bold flex gap6"><svg class="ic" style="width:15px;height:15px;color:var(--brand)"><use href="#i-cal"/></svg>计划发货日期</span>
+            <button class="btn ghost sm">2026-09-19 <svg class="ic" style="width:14px;height:14px"><use href="#i-cal"/></svg></button>
+            <span class="grow"></span>
+            <span class="c3 s12">数据更新时间 14:30</span>
+          </div>
+        </div>
+        <div class="dispatch-grid" style="display:grid;grid-template-columns:290px 1fr 330px;gap:14px;align-items:start">
+          <!-- 左栏 待排订单 -->
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-box"/></svg>待排订单 <span class="badge brand">46</span></div><button class="btn ghost sm"><svg class="ic"><use href="#i-filter"/></svg>筛选</button></div>
+            <div class="card-b" style="padding-top:10px;max-height:620px;overflow-y:auto">
+              <div class="drag-row" draggable="true" style="border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:10px;padding:9px 10px;margin-bottom:8px;background:#fff;cursor:grab">
+                <div class="flex between"><b class="s12">CK20260919045</b><span class="badge gray">1.2t</span></div>
+                <div class="c3 s12 mt8">南海利达纺织 · 佛山市南海区狮山镇</div>
+                <div class="flex between mt8 s12"><span class="c3">08:00-12:00</span><span class="brand">已勾选 ✓</span></div>
+              </div>
+              <div class="drag-row" draggable="true" style="border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:10px;padding:9px 10px;margin-bottom:8px;background:#fff;cursor:grab">
+                <div class="flex between"><b class="s12">CK20260919041</b><span class="badge gray">0.2t</span></div>
+                <div class="c3 s12 mt8">顺德金盛皮具 · 佛山市顺德区大良街道</div>
+                <div class="flex between mt8 s12"><span class="c3">14:00-18:00</span><span class="brand">已勾选 ✓</span></div>
+              </div>
+              <div class="drag-row" draggable="true" style="border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:10px;padding:9px 10px;margin-bottom:8px;background:#fff;cursor:grab">
+                <div class="flex between"><b class="s12">CK20260919039</b><span class="badge amber">加急</span></div>
+                <div class="c3 s12 mt8">广州番禺华美布行 · 广州市番禺区</div>
+                <div class="flex between mt8 s12"><span class="c3">10:00-14:00</span><span class="cyan">AI 推荐加急</span></div>
+              </div>
+              <div class="drag-row" draggable="true" style="border:1px solid var(--line);border-left:3px solid var(--line);border-radius:10px;padding:9px 10px;margin-bottom:8px;background:#fff;cursor:grab;opacity:.7">
+                <div class="flex between"><b class="s12">CK20260919038</b><span class="badge gray">3.4t</span></div>
+                <div class="c3 s12 mt8">三水万达皮革 · 佛山市三水区乐平镇</div>
+                <div class="flex between mt8 s12"><span class="c3">13:00-17:00</span><span class="c3">未勾选</span></div>
+              </div>
+              <div style="background:var(--amber-soft);border-radius:10px;padding:9px 10px;font-size:11.5px;color:#A86A08" class="flex gap6"><svg class="ic" style="width:14px;height:14px"><use href="#i-alert"/></svg>地址可信度低，未确认前不可排单</div>
+              <div class="drag-row" draggable="true" style="border:1px solid var(--line);border-left:3px solid var(--line);border-radius:10px;padding:9px 10px;margin-bottom:8px;background:#fff;cursor:grab;opacity:.7">
+                <div class="flex between"><b class="s12">CK20260919036</b><span class="badge gray">0.9t</span></div>
+                <div class="c3 s12 mt8">顺德宏业皮革厂 · 佛山市顺德区龙江镇</div>
+                <div class="flex between mt8 s12"><span class="c3">09-20 08:00</span><span class="c3">未勾选</span></div>
+              </div>
+              <button class="btn ghost sm" style="width:100%"><svg class="ic" style="width:14px;height:14px"><use href="#i-plus"/></svg>勾选更多订单</button>
+            </div>
+          </div>
+          <!-- 中栏 地图 -->
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-map"/></svg>配送路线</div></div>
+            <div class="card-b">
+              <div class="mapbox" style="height:560px">
+                <div class="grid"></div>
+                <div class="area-tag" style="left:6%;top:12%">佛山·南海</div>
+                <div class="area-tag" style="left:52%;top:8%">广州·番禺</div>
+                <div class="area-tag" style="left:22%;bottom:10%">佛山·顺德</div>
+                <div class="road h" style="left:0;right:0;top:30%"></div>
+                <div class="road h rd-y" style="left:0;right:0;top:55%"></div>
+                <div class="road h" style="left:0;right:0;top:78%"></div>
+                <div class="road v" style="top:0;bottom:0;left:38%"></div>
+                <div class="road v" style="top:0;bottom:0;left:64%"></div>
+                <div class="road v" style="top:0;bottom:0;left:85%"></div>
+                <div class="map-pulse" style="left:50%;top:26%"></div>
+                <div class="route-line" style="left:16%;top:45%;width:36%;transform:rotate(-8deg)"></div>
+                <div class="route-line alt1" style="left:34%;top:60%;width:30%;transform:rotate(14deg)"></div>
+                <div class="route-line alt2" style="left:52%;top:40%;width:24%;transform:rotate(-30deg)"></div>
+                <div class="map-pin" style="left:16%;top:45%"><span class="dot" style="background:#2B6DE8"></span><div class="plabel">林氏优采仓<small>出发</small></div></div>
+                <div class="map-pin" style="left:34%;top:56%"><span class="dot" style="background:#17A46E"></span><div class="plabel">南海利达纺织<small>08:40</small></div></div>
+                <div class="map-pin" style="left:52%;top:52%"><span class="dot" style="background:#17A46E"></span><div class="plabel">顺德金盛皮具<small>10:20</small></div></div>
+                <div class="map-pin" style="left:66%;top:34%"><span class="dot" style="background:#17A46E"></span><div class="plabel">广州番禺华美<small>12:30</small></div></div>
+                <div class="map-car" style="left:22%;top:48%"><div class="car-body"><svg class="ic"><use href="#i-truck"/></svg></div></div>
+                <div class="map-pin" style="left:30%;top:66%"><span class="dot" style="background:#F59E0B"></span><div class="plabel">龙江家具厂<small>张师傅</small></div></div>
+                <div class="map-pin" style="left:46%;top:74%"><span class="dot" style="background:#F59E0B"></span><div class="plabel">宏业皮革厂<small>李师傅</small></div></div>
+                <div class="map-car" style="left:42%;top:71%"><div class="car-body"><svg class="ic"><use href="#i-truck"/></svg></div></div>
+                <div class="map-pin" style="left:72%;top:60%"><span class="dot" style="background:#0E9BD8"></span><div class="plabel">番禺布行<small>陈师傅</small></div></div>
+              </div>
+            </div>
+          </div>
+          <!-- 右栏 司机/车辆/指标 -->
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-truck"/></svg>司机与车辆 <span class="badge green">AI 已排 10 辆</span></div><button class="btn ghost sm"><svg class="ic"><use href="#i-edit"/></svg>调整</button></div>
+            <div class="card-b" style="padding-top:10px;max-height:620px;overflow-y:auto">
+              <div class="alertbar green" style="margin-bottom:10px;padding:9px 11px"><svg class="ic" style="width:15px;height:15px"><use href="#i-cal"/></svg><b>已结合排班</b><span class="grow s12">仅在「在班」司机中派单 · 早班优先分配</span></div>
+              <div class="task-slot" style="border:1px solid #D5E6FF;border-radius:12px;padding:11px;margin-bottom:10px;background:#F6FAFF">
+                <div class="flex between">
+                  <div class="flex gap8"><span class="avatar a1">张</span><div><b class="s13">张伟</b><div class="c3 s12">粤E·D8321 · 厢式货车 5t/25m³</div></div></div>
+                  <span class="badge green">92% 装载</span>
+                </div>
+                <div class="flex gap6 mt8"><span class="shift-tag am">早班 06:00-14:00</span><span class="badge brand" style="height:22px">今日在班</span></div>
+                <div class="s12 mt8 c2">① 南海利达纺织 ② 顺德金盛皮具 ③ 广州番禺华美</div>
+                <div class="flex between mt8 s12"><span class="c3">里程 68.4km</span><span class="c3">08:00 出发</span><span class="brand bold">准时率 97%</span></div>
+                <div class="progress mt8"><i style="width:92%"></i></div>
+                <div class="ai-brief">
+                  <div class="ab-head">${IC('cpu',12)} AI 派单分析 <span class="ab-score">建议采纳 · 97</span></div>
+                  <div class="ab-points"><span>· 3 单路线重合度 82%，顺德东北方向顺路配送</span><span>· 装载 91%/86% 平衡，未超限</span></div>
+                  <div class="ab-suggest"><b>建议：</b>按 ①→②→③ 顺序执行，13:20 前出发避开 16:30 后广佛高速拥堵。</div>
+                </div>
+              </div>
+              <div class="task-slot" style="border:1px solid #FCE9C8;border-radius:12px;padding:11px;margin-bottom:10px;background:#FFFBF3">
+                <div class="flex between">
+                  <div class="flex gap8"><span class="avatar a3">李</span><div><b class="s13">李强</b><div class="c3 s12">粤E·C5510 · 高栏车 8t/40m³</div></div></div>
+                  <span class="badge green">85% 装载</span>
+                </div>
+                <div class="flex gap6 mt8"><span class="shift-tag pm">晚班 14:00-22:00</span><span class="badge brand" style="height:22px">今日在班</span></div>
+                <div class="s12 mt8 c2">① 龙江家具厂 ② 宏业皮革厂 ③ 三水万达皮革</div>
+                <div class="flex between mt8 s12"><span class="c3">里程 92.1km</span><span class="c3">14:30 出发</span><span class="amber bold">准时率 89%</span></div>
+                <div class="progress a mt8"><i style="width:85%"></i></div>
+                <div class="ai-brief">
+                  <div class="ab-head">${IC('cpu',12)} AI 派单分析 <span class="ab-score warn">注意时效 · 89</span></div>
+                  <div class="ab-points"><span>· 顺德→三水方向顺畅，高栏车 85% 未超限</span><span>· 历史准时率 89%，暴雨前需赶在三水完成卸货</span></div>
+                  <div class="ab-suggest"><b>建议：</b>14:30 前装车出发，三水万达站尽量于 17:30 前完成卸货避开降雨。</div>
+                </div>
+              </div>
+              <div class="task-slot" style="border:1px solid #C9EEF9;border-radius:12px;padding:11px;margin-bottom:10px;background:#F6FDFF">
+                <div class="flex between">
+                  <div class="flex gap8"><span class="avatar a4">陈</span><div><b class="s13">陈志明</b><div class="c3 s12">粤E·B2078 · 厢式货车 5t/25m³</div></div></div>
+                  <span class="badge green">78% 装载</span>
+                </div>
+                <div class="flex gap6 mt8"><span class="shift-tag am">早班 06:00-14:00</span><span class="badge brand" style="height:22px">今日在班</span></div>
+                <div class="s12 mt8 c2">① 番禺华美布行 ② 番禺南村家具</div>
+                <div class="flex between mt8 s12"><span class="c3">里程 54.7km</span><span class="c3">08:45 出发</span><span class="brand bold">准时率 95%</span></div>
+                <div class="progress mt8"><i style="width:78%"></i></div>
+                <div class="ai-brief">
+                  <div class="ab-head">${IC('cpu',12)} AI 派单分析 <span class="ab-score">建议采纳 · 95</span></div>
+                  <div class="ab-points"><span>· 番禺方向独立成线，往返里程最短 54.7km</span><span>· 熟悉番禺/南沙，加急单已排首站满足 10:00 时间窗</span></div>
+                  <div class="ab-suggest"><b>建议：</b>08:45 出发按顺序配送，首站加急订单优先交付。</div>
+                </div>
+              </div>
+              <div class="task-slot" style="border:1px solid #F5E0E1;border-radius:12px;padding:11px;margin-bottom:10px;background:#FFF8F8;opacity:.85">
+                <div class="flex between">
+                  <div class="flex gap8"><span class="avatar a5">刘</span><div><b class="s13">刘国华</b><div class="c3 s12">粤E·F3201 · 平板车 10t/50m³</div></div></div>
+                  <span class="badge gray">不可派单</span>
+                </div>
+                <div class="flex gap6 mt8"><span class="shift-tag rest">今日请假</span></div>
+                <div class="s12 mt8 c2 red">非在班司机，AI 已自动跳过 · 车辆闲置</div>
+              </div>
+              <div class="ai-reason" style="background:linear-gradient(135deg,#EEF4FF,#F3F8FF);border:1px solid #D9E7FF;border-radius:12px;padding:11px;margin-bottom:10px">
+                <div class="flex gap6 s12 bold brand" style="margin-bottom:6px"><svg class="ic" style="width:14px;height:14px"><use href="#i-cpu"/></svg>AI 推荐理由</div>
+                <div class="s12 c2">建议将 CK20260919045、CK20260919041、CK20260919039 分配给张师傅（今日早班在岗），三处地址位于顺德区东北方向，路线重合度 82%，预计重量装载率 91%；考虑到 16:30 后主要道路拥堵，建议 13:20 前出发。</div>
+              </div>
+              <div class="alertbar red"><svg class="ic"><use href="#i-alert"/></svg><b>1 单无法分配</b><span class="grow s12">CK20260919038 超载约束冲突</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== 实时运输看板 ================== -->
+      <section class="pc-view hidden" id="v-board">
+        <div class="page-title"><div><h2>实时运输看板</h2><p>今日全部配送车辆位置 · 进度 · 预计到达 · 风险预警</p></div>
+          <div class="flex gap8"><div class="tabs"><button class="on">全部状态</button><button>配送中</button><button>卸货中</button><button>返仓中</button></div><button class="btn ghost"><svg class="ic"><use href="#i-refresh"/></svg>刷新</button></div></div>
+        <div class="kpis c5" style="margin-bottom:14px">
+          <div class="kpi" style="padding:14px 16px"><div class="flex between"><div><div class="k-label">配送中车辆</div><div class="k-val num">32</div></div><span class="k-ico" style="background:#E3EDFF;color:var(--brand);width:36px;height:36px;margin:0"><svg class="ic"><use href="#i-truck"/></svg></span></div><div class="k-sub"><span class="k-trend green">7 辆待发车</span></div></div>
+          <div class="kpi" style="padding:14px 16px"><div class="flex between"><div><div class="k-label">今日已完成</div><div class="k-val num">86</div></div><span class="k-ico" style="background:#E3F7EE;color:var(--green);width:36px;height:36px;margin:0"><svg class="ic"><use href="#i-check-c"/></svg></span></div><div class="k-sub"><span class="k-trend green">完成率 67%</span></div></div>
+          <div class="kpi" style="padding:14px 16px"><div class="flex between"><div><div class="k-label">预计准时率</div><div class="k-val num">94.2%</div></div><span class="k-ico" style="background:#FEF3DE;color:var(--amber);width:36px;height:36px;margin:0"><svg class="ic"><use href="#i-clock"/></svg></span></div><div class="k-sub"><span class="k-trend green">↑ 1.8%</span></div></div>
+          <div class="kpi" style="padding:14px 16px"><div class="flex between"><div><div class="k-label">延迟风险车辆</div><div class="k-val red num">3</div></div><span class="k-ico" style="background:#FDEBEC;color:var(--red);width:36px;height:36px;margin:0"><svg class="ic"><use href="#i-alert"/></svg></span></div><div class="k-sub"><span class="k-trend red">>10min:2 · >30min:1</span></div></div>
+          <div class="kpi" style="padding:14px 16px"><div class="flex between"><div><div class="k-label">平均装载率</div><div class="k-val num">87%</div></div><span class="k-ico" style="background:#F1EAFE;color:var(--purple);width:36px;height:36px;margin:0"><svg class="ic"><use href="#i-chart"/></svg></span></div><div class="k-sub"><span class="k-trend green">↑ 6%</span></div></div>
+        </div>
+        <div class="grid-2-1">
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-map"/></svg>车辆实时位置与路线</div>
+              <div class="flex gap8"><div class="legend"><span><i style="background:#2B6DE8"></i>计划路线</span><span><i style="background:#17A46E"></i>已走路线</span><span><i style="background:#E5484D"></i>风险</span></div><button class="btn ghost sm"><svg class="ic"><use href="#i-loc"/></svg>全屏地图</button></div></div>
+            <div class="card-b">
+              <div class="mapbox" style="height:520px">
+                <div class="grid"></div>
+                <div class="area-tag" style="left:6%;top:10%">佛山·南海</div>
+                <div class="area-tag" style="left:50%;top:8%">广州·番禺</div>
+                <div class="area-tag" style="left:18%;bottom:10%">佛山·顺德</div>
+                <div class="area-tag" style="left:60%;bottom:14%">广州·南沙</div>
+                <div class="road h" style="left:0;right:0;top:28%"></div>
+                <div class="road h rd-y" style="left:0;right:0;top:52%"></div>
+                <div class="road h" style="left:0;right:0;top:74%"></div>
+                <div class="road v" style="top:0;bottom:0;left:36%"></div>
+                <div class="road v" style="top:0;bottom:0;left:60%"></div>
+                <div class="road v" style="top:0;bottom:0;left:82%"></div>
+                <div class="map-pin" style="left:14%;top:36%"><span class="dot" style="background:#2B6DE8"></span><div class="plabel">林氏优采仓</div></div>
+                <div class="route-line done" style="left:14%;top:40%;width:26%;transform:rotate(6deg)"></div>
+                <div class="route-line" style="left:38%;top:46%;width:22%;transform:rotate(-12deg)"></div>
+                <div class="route-line alt1" style="left:22%;top:52%;width:22%;transform:rotate(40deg)"></div>
+                <div class="map-car" style="left:30%;top:42%"><div class="car-body"><svg class="ic"><use href="#i-truck"/></svg></div><div class="plabel" style="position:absolute;top:26px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10px;font-weight:600;background:#fff;padding:1px 7px;border-radius:6px;box-shadow:0 2px 6px rgba(0,20,60,.12)">粤E·D8321 · 张伟</div></div>
+                <div class="map-car" style="left:52%;top:58%"><div class="car-body"><svg class="ic"><use href="#i-truck"/></svg></div></div>
+                <div class="map-car" style="left:68%;top:46%"><div class="car-body"><svg class="ic"><use href="#i-truck"/></svg></div></div>
+                <div class="map-pin" style="left:44%;top:62%"><span class="dot" style="background:#F59E0B"></span><div class="plabel">卸货中<small>龙江家具厂</small></div></div>
+                <div class="map-pulse" style="left:44%;top:62%"></div>
+                <div class="map-pin" style="left:74%;top:60%"><span class="dot" style="background:#17A46E"></span><div class="plabel">番禺华美<small>已签收</small></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-alert"/></svg>风险预警</div><span class="badge red">3 条</span></div>
+            <div class="card-b" style="padding-top:10px">
+              <div class="alertbar amber" style="margin-bottom:10px"><svg class="ic"><use href="#i-clock"/></svg><b>预计延迟 12min</b><span class="grow">粤E·D8321</span><span class="c3 s12">14:32</span></div>
+              <div class="alertbar amber" style="margin-bottom:10px"><svg class="ic"><use href="#i-truck"/></svg><b>卸货超时 25min</b><span class="grow">粤E·C5510</span><span class="c3 s12">14:30</span></div>
+              <div class="alertbar amber" style="margin-bottom:10px"><svg class="ic"><use href="#i-pin"/></svg><b>偏离计划路线</b><span class="grow">粤E·B2078</span><span class="c3 s12">14:22</span></div>
+              <div class="alertbar red" style="margin-bottom:12px"><svg class="ic"><use href="#i-rain"/></svg><b>南海/顺德暴雨</b><span class="grow">15:00-18:00</span><button class="btn sm" style="background:#fff;border:1px solid #F6CFD0;color:#B52B2F">处置</button></div>
+            </div>
+            <div class="card-h" style="padding-top:4px"><div class="card-t"><svg class="ic"><use href="#i-truck"/></svg>配送任务列表</div></div>
+            <div class="card-b" style="padding-top:8px">
+              <div class="rank-row"><span class="avatar a1">张</span><span class="grow"><b class="s13">张伟 · 粤E·D8321</b><span class="c3 s12 block">配送中 · 下一站 南海利达纺织</span></span><span class="s12 c3">预计 14:50 到</span></div>
+              <div class="rank-row"><span class="avatar a3">李</span><span class="grow"><b class="s13">李强 · 粤E·C5510</b><span class="c3 s12 block">卸货中 · 龙江家具厂</span></span><span class="s12 amber">延迟 12min</span></div>
+              <div class="rank-row"><span class="avatar a4">陈</span><span class="grow"><b class="s13">陈志明 · 粤E·B2078</b><span class="c3 s12 block">返仓中 · 已配送 2 单</span></span><span class="s12 c3">预计 15:20 到仓</span></div>
+              <div class="rank-row"><span class="avatar a5">刘</span><span class="grow"><b class="s13">刘国华 · 粤E·F3201</b><span class="c3 s12 block">待发车 · 08:00 出发</span></span><span class="s12 c3">待发车</span></div>
+              <div class="rank-row"><span class="avatar a2">周</span><span class="grow"><b class="s13">周海生 · 粤E·G1982</b><span class="c3 s12 block">已完成 · 5 单全部签收</span></span><span class="badge green">完成</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== 排班管理 ================== -->
+      <section class="pc-view hidden" id="v-sched">
+        <div class="page-title"><div><h2>排班管理</h2><p>司机班次计划 · 按周排班 · 智能调度按在班司机派单</p></div>
+          <div class="flex gap8"><button class="btn ghost"><svg class="ic"><use href="#i-chev-l"/></svg>上一周</button><button class="btn primary"><svg class="ic"><use href="#i-cal"/></svg>2026-09-14 ~ 09-20 本周</button><button class="btn ghost"><svg class="ic"><use href="#i-chev-r"/></svg>下一周</button><button class="btn ghost"><svg class="ic"><use href="#i-download"/></svg>导出排班表</button></div></div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-b" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <div class="sel">全部班次</div>
+            <div class="sel">全部车队</div>
+            <input class="inp wide" placeholder="搜索司机姓名 / 编号…">
+            <button class="btn ghost sm"><svg class="ic"><use href="#i-search"/></svg>查询</button>
+            <span class="grow"></span>
+            <div class="sched-legend">
+              <span><i style="background:#2B6DE8"></i>早班 06:00-14:00</span>
+              <span><i style="background:#17A46E"></i>晚班 14:00-22:00</span>
+              <span><i style="background:#8B5CF6"></i>夜班 22:00-06:00</span>
+              <span><i style="background:#E5484D"></i>休息</span>
+              <span><i style="background:#F0F3F9"></i>请假</span>
+            </div>
+            <button class="btn primary sm" style="height:30px"><svg class="ic" style="width:14px;height:14px"><use href="#i-plus"/></svg>新增班次</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-cal"/></svg>本周排班日历 <span class="badge green">在班 12 人 · 休息 6 人</span></div>
+            <div class="flex gap8"><div class="tabs"><button class="on">按司机</button><button>按班次</button></div><button class="btn ghost sm"><svg class="ic"><use href="#i-edit"/></svg>批量设置</button></div></div>
+          <div class="card-b" style="overflow-x:auto">
+            <div class="sched-head">
+              <div class="dow"></div>
+              <div><div class="dow">周一</div><div class="dnum">14</div></div>
+              <div><div class="dow">周二</div><div class="dnum">15</div></div>
+              <div><div class="dow">周三</div><div class="dnum">16</div></div>
+              <div><div class="dow">周四</div><div class="dnum">17</div></div>
+              <div><div class="dow">周五</div><div class="dnum">18</div></div>
+              <div><div class="dow">周六</div><div class="dnum today">19</div></div>
+              <div><div class="dow">周日</div><div class="dnum">20</div></div>
+            </div>
+            <div class="sched-grid">
+              <div class="s-driver">张伟</div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am selected">早班 今日</div></div>
+              <div class="sched-cell"><div class="slot rest">休息</div></div>
+              <div class="s-driver">李强</div>
+              <div class="sched-cell"><div class="slot pm">晚班</div></div>
+              <div class="sched-cell"><div class="slot pm">晚班</div></div>
+              <div class="sched-cell"><div class="slot rest">休息</div></div>
+              <div class="sched-cell"><div class="slot pm">晚班</div></div>
+              <div class="sched-cell"><div class="slot pm">晚班</div></div>
+              <div class="sched-cell"><div class="slot pm selected">晚班 今日</div></div>
+              <div class="sched-cell"><div class="slot pm">晚班</div></div>
+              <div class="s-driver">陈志明</div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot off">请假</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am selected">早班 今日</div></div>
+              <div class="sched-cell"><div class="slot rest">休息</div></div>
+              <div class="s-driver">刘国华</div>
+              <div class="sched-cell"><div class="slot rest">休息</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot am">早班</div></div>
+              <div class="sched-cell"><div class="slot off">请假</div></div>
+              <div class="sched-cell"><div class="slot rest">休息</div></div>
+              <div class="s-driver">周海生</div>
+              <div class="sched-cell"><div class="slot night">夜班</div></div>
+              <div class="sched-cell"><div class="slot night">夜班</div></div>
+              <div class="sched-cell"><div class="slot rest">休息</div></div>
+              <div class="sched-cell"><div class="slot night">夜班</div></div>
+              <div class="sched-cell"><div class="slot night">夜班</div></div>
+              <div class="sched-cell"><div class="slot night selected">夜班 今日</div></div>
+              <div class="sched-cell"><div class="slot rest">休息</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2-1" style="margin-top:14px">
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-clock"/></svg>今日出勤概览</div><span class="badge green">12 人在岗</span></div>
+            <div class="card-b" style="padding-top:8px">
+              <div class="rank-row"><span class="avatar a1">张</span><span class="grow"><b class="s13">张伟</b><span class="c3 s12 block">早班 06:00-14:00 · 粤E·D8321</span></span><span class="badge brand">在岗</span></div>
+              <div class="rank-row"><span class="avatar a3">李</span><span class="grow"><b class="s13">李强</b><span class="c3 s12 block">晚班 14:00-22:00 · 粤E·C5510</span></span><span class="badge green">在岗</span></div>
+              <div class="rank-row"><span class="avatar a4">陈</span><span class="grow"><b class="s13">陈志明</b><span class="c3 s12 block">早班 06:00-14:00 · 粤E·B2078</span></span><span class="badge green">在岗</span></div>
+              <div class="rank-row"><span class="avatar a2">周</span><span class="grow"><b class="s13">周海生</b><span class="c3 s12 block">夜班 22:00-06:00 · 粤E·G1982</span></span><span class="badge green">在岗</span></div>
+              <div class="rank-row"><span class="avatar a5">刘</span><span class="grow"><b class="s13">刘国华</b><span class="c3 s12 block">今日请假 · 粤E·F3201 空闲</span></span><span class="badge red">请假</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-cpu"/></svg>排班与调度联动</div></div>
+            <div class="card-b" style="padding-top:8px">
+              <div class="alertbar green" style="margin-bottom:10px"><svg class="ic"><use href="#i-check"/></svg><b>今日可调度</b><span class="grow">12 人在班 · 10 辆可用车辆</span></div>
+              <div class="alertbar amber" style="margin-bottom:10px"><svg class="ic"><use href="#i-clock"/></svg><b>晚班司机 17:00 后</b><span class="grow">跨区配送将自动避开休息司机</span></div>
+              <div class="alertbar red"><svg class="ic"><use href="#i-alert"/></svg><b>1 人请假</b><span class="grow">刘国华 · 今日无法分配任务</span></div>
+              <p class="c3 s12 mt12" style="line-height:1.7">智能调度中心将仅在「在班」司机中分配任务，并对班次时间自动匹配时间窗，超时未完成的班次将给出换班提醒。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== 司机管理 ================== -->
+      <section class="pc-view hidden" id="v-drivers">
+        <div class="page-title"><div><h2>司机管理</h2><p>司机档案 · 可用状态 · 熟悉区域 · 历史绩效</p></div>
+          <div class="flex gap8"><button class="btn ghost"><svg class="ic"><use href="#i-download"/></svg>导出</button><button class="btn primary"><svg class="ic"><use href="#i-plus"/></svg>新增司机</button></div></div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-b" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <div class="sel">当日状态 · 全部</div>
+            <div class="sel">驾驶证类型 · 全部</div>
+            <div class="sel">熟悉区域 · 全部</div>
+            <input class="inp wide" placeholder="搜索司机姓名 / 手机号 / 编号…">
+            <button class="btn ghost sm"><svg class="ic"><use href="#i-search"/></svg>查询</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-users"/></svg>司机列表 <span class="c3 s12" style="font-weight:400">共 18 人</span></div></div>
+          <div class="card-b">
+            <table class="tbl">
+              <thead><tr><th>司机 / 编号</th><th>联系方式</th><th>驾驶证</th><th>熟悉区域</th><th>默认车辆</th><th>当日状态</th><th>历史准时率</th><th>综合绩效</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td><span class="flex gap8"><span class="avatar a1">张</span><span><b class="s13">张伟</b><div class="c3 s12">DRV-1003</div></span></span></td><td class="s12">139 2803 6612</td><td class="s12">B2</td><td class="s12">顺德 / 南海</td><td class="s12">粤E·D8321</td><td><span class="badge green">可出车</span></td><td class="s12 bold">98%</td><td class="s12"><b class="brand">96.2</b> <span class="c3">↑2</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span> <span class="c3 s12" style="cursor:pointer">详情</span></td></tr>
+                <tr><td><span class="flex gap8"><span class="avatar a3">李</span><span><b class="s13">李强</b><div class="c3 s12">DRV-1007</div></span></span></td><td class="s12">136 2203 8890</td><td class="s12">B2</td><td class="s12">南海 / 三水</td><td class="s12">粤E·C5510</td><td><span class="badge amber">配送中</span></td><td class="s12 bold">96%</td><td class="s12"><b class="brand">94.8</b> <span class="c3">↑1</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span> <span class="c3 s12" style="cursor:pointer">详情</span></td></tr>
+                <tr><td><span class="flex gap8"><span class="avatar a4">陈</span><span><b class="s13">陈志明</b><div class="c3 s12">DRV-1012</div></span></span></td><td class="s12">138 0098 1209</td><td class="s12">A2</td><td class="s12">番禺 / 南沙</td><td class="s12">粤E·B2078</td><td><span class="badge amber">返仓中</span></td><td class="s12 bold">95%</td><td class="s12"><b class="brand">93.5</b> <span class="c3">↓1</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span> <span class="c3 s12" style="cursor:pointer">详情</span></td></tr>
+                <tr><td><span class="flex gap8"><span class="avatar a5">刘</span><span><b class="s13">刘国华</b><div class="c3 s12">DRV-1018</div></span></span></td><td class="s12">135 8876 4521</td><td class="s12">B2</td><td class="s12">顺德 / 乐从</td><td class="s12">粤E·F3201</td><td><span class="badge gray">休息中</span></td><td class="s12 bold">93%</td><td class="s12"><b class="brand">91.9</b> <span class="c3">—</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span> <span class="c3 s12" style="cursor:pointer">详情</span></td></tr>
+                <tr><td><span class="flex gap8"><span class="avatar a2">周</span><span><b class="s13">周海生</b><div class="c3 s12">DRV-1021</div></span></span></td><td class="s12">133 4466 7788</td><td class="s12">B2</td><td class="s12">南海 / 里水</td><td class="s12">粤E·G1982</td><td><span class="badge gray">已收工</span></td><td class="s12 bold">92%</td><td class="s12"><b class="brand">90.3</b> <span class="c3">↑3</span></td><td><span class="brand s12" style="cursor:pointer">编辑</span> <span class="c3 s12" style="cursor:pointer">详情</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== 车辆管理 ================== -->
+      <section class="pc-view hidden" id="v-vehicles">
+        <div class="page-title"><div><h2>车辆管理</h2><p>车辆档案 · 载重载积 · 限行区域 · 使用情况</p></div>
+          <div class="flex gap8"><button class="btn ghost"><svg class="ic"><use href="#i-download"/></svg>导出</button><button class="btn primary"><svg class="ic"><use href="#i-plus"/></svg>新增车辆</button></div></div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-b" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <div class="sel">车辆状态 · 全部</div>
+            <div class="sel">车型 · 全部</div>
+            <div class="sel">限行区域 · 全部</div>
+            <input class="inp wide" placeholder="搜索车牌号 / 车辆编号…">
+            <button class="btn ghost sm"><svg class="ic"><use href="#i-search"/></svg>查询</button>
+          </div>
+        </div>
+        <div class="kpis c4" style="margin-bottom:14px">
+          <div class="kpi" style="padding:14px 16px"><div class="flex between"><div><div class="k-label">车辆总数</div><div class="k-val num">45</div></div><span class="k-ico" style="background:#E3EDFF;color:var(--brand);width:36px;height:36px;margin:0"><svg class="ic"><use href="#i-fleet"/></svg></span></div><div class="k-sub"><span class="k-trend green">可用 38</span></div></div>
+          <div class="kpi" style="padding:14px 16px"><div class="flex between"><div><div class="k-label">今日使用车辆</div><div class="k-val num">32</div></div><span class="k-ico" style="background:#E3F7EE;color:var(--green);width:36px;height:36px;margin:0"><svg class="ic"><use href="#i-truck"/></svg></span></div><div class="k-sub"><span class="k-trend green">使用率 71%</span></div></div>
+          <div class="kpi" style="padding:14px 16px"><div class="flex between"><div><div class="k-label">平均装载率</div><div class="k-val num">87%</div></div><span class="k-ico" style="background:#FEF3DE;color:var(--amber);width:36px;height:36px;margin:0"><svg class="ic"><use href="#i-chart"/></svg></span></div><div class="k-sub"><span class="k-trend green">↑ 6% 较上周</span></div></div>
+          <div class="kpi" style="padding:14px 16px"><div class="flex between"><div><div class="k-label">车辆异常</div><div class="k-val red num">2</div></div><span class="k-ico" style="background:#FDEBEC;color:var(--red);width:36px;height:36px;margin:0"><svg class="ic"><use href="#i-alert"/></svg></span></div><div class="k-sub"><span class="k-trend red">维修中 2</span></div></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-fleet"/></svg>车辆列表 <span class="c3 s12" style="font-weight:400">共 45 辆</span></div></div>
+          <div class="card-b">
+            <table class="tbl">
+              <thead><tr><th>车牌号 / 编号</th><th>车型</th><th>载重 / 载积 / 车长</th><th>可配送区域</th><th>限行区域</th><th>默认司机</th><th>当前状态</th><th>今日装载率</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td class="bold">粤E·D8321<br><span class="c3 s12">VCL-201</span></td><td class="s12">厢式货车</td><td class="s12">5t / 25m³ / 4.2m</td><td class="s12">顺德 · 南海 · 番禺</td><td class="s12">广州中心城区</td><td class="s12">张伟</td><td><span class="badge green">配送中</span></td><td><div class="flex gap8"><div class="progress grow"><i style="width:92%"></i></div><span class="s12 num">92%</span></div></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+                <tr><td class="bold">粤E·C5510<br><span class="c3 s12">VCL-207</span></td><td class="s12">高栏车</td><td class="s12">8t / 40m³ / 6.2m</td><td class="s12">佛山五区</td><td class="s12">—</td><td class="s12">李强</td><td><span class="badge amber">卸货中</span></td><td><div class="flex gap8"><div class="progress a grow"><i style="width:85%"></i></div><span class="s12 num">85%</span></div></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+                <tr><td class="bold">粤E·B2078<br><span class="c3 s12">VCL-212</span></td><td class="s12">厢式货车</td><td class="s12">5t / 25m³ / 4.2m</td><td class="s12">番禺 · 南沙</td><td class="s12">广州中心城区</td><td class="s12">陈志明</td><td><span class="badge green">返仓中</span></td><td><div class="flex gap8"><div class="progress grow"><i style="width:78%"></i></div><span class="s12 num">78%</span></div></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+                <tr><td class="bold">粤E·F3201<br><span class="c3 s12">VCL-218</span></td><td class="s12">平板车</td><td class="s12">10t / 50m³ / 7.6m</td><td class="s12">佛山 · 广州</td><td class="s12">—</td><td class="s12">刘国华</td><td><span class="badge gray">待发车</span></td><td><div class="flex gap8"><div class="progress grow"><i style="width:64%"></i></div><span class="s12 num">64%</span></div></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+                <tr><td class="bold">粤E·G1982<br><span class="c3 s12">VCL-221</span></td><td class="s12">厢式货车</td><td class="s12">5t / 25m³ / 4.2m</td><td class="s12">南海 · 里水</td><td class="s12">—</td><td class="s12">周海生</td><td><span class="badge gray">已完成</span></td><td><div class="flex gap8"><div class="progress g grow"><i style="width:58%"></i></div><span class="s12 num">58%</span></div></td><td><span class="brand s12" style="cursor:pointer">编辑</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== 司机绩效 ================== -->
+      <section class="pc-view hidden" id="v-perf">
+        <div class="page-title"><div><h2>司机绩效</h2><p>按日 / 周 / 月查看司机效率排名与绩效明细</p></div>
+          <div class="flex gap8"><div class="tabs"><button class="on">日</button><button>周</button><button>月</button></div><button class="btn ghost"><svg class="ic"><use href="#i-download"/></svg>导出报告</button></div></div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-b" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+            <div class="flex gap12">
+              <div class="donut"><svg width="64" height="64"><circle cx="32" cy="32" r="26" fill="none" stroke="#EDF1F8" stroke-width="7"/><circle cx="32" cy="32" r="26" fill="none" stroke="#2B6DE8" stroke-width="7" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="20.4"/></svg><div class="val num">87.6<small>综合评分</small></div></div>
+              <div><b class="s16">张伟</b><div class="c3 s12 mt8">绩效排名第 1 名 <span class="green">↑ 2</span></div><div class="flex gap8 mt8"><span class="badge green">准时率 98%</span><span class="badge brand">完成 46 单</span></div></div>
+            </div>
+            <div class="grow"></div>
+            <div class="metric-chip"><b class="num">46</b><span>完成订单数</span></div>
+            <div class="metric-chip"><b class="num">98.0%</b><span>准时送达率</span></div>
+            <div class="metric-chip"><b class="num">52.6min</b><span>平均配送时长</span></div>
+            <div class="metric-chip"><b class="num">18.3min</b><span>平均卸货时长</span></div>
+            <div class="metric-chip"><b class="num">1.8%</b><span>里程偏差率</span></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-trophy"/></svg>绩效指标权重</div></div>
+            <div class="card-b" style="padding-top:10px">
+              <div class="kv"><span>准时送达率</span><b>30% <span class="progress" style="display:inline-block;width:120px;vertical-align:middle;margin-left:8px"><i style="width:30%"></i></span></b></div>
+              <div class="kv"><span>单位时间完成订单数</span><b>20% <span class="progress" style="display:inline-block;width:120px;vertical-align:middle;margin-left:8px"><i style="width:20%"></i></span></b></div>
+              <div class="kv"><span>实际与计划里程偏差</span><b>15% <span class="progress" style="display:inline-block;width:120px;vertical-align:middle;margin-left:8px"><i style="width:15%"></i></span></b></div>
+              <div class="kv"><span>平均卸货等待时间</span><b>10% <span class="progress" style="display:inline-block;width:120px;vertical-align:middle;margin-left:8px"><i style="width:10%"></i></span></b></div>
+              <div class="kv"><span>客户签收完成率</span><b>10% <span class="progress" style="display:inline-block;width:120px;vertical-align:middle;margin-left:8px"><i style="width:10%"></i></span></b></div>
+              <div class="kv"><span>配送任务完成率</span><b>10% <span class="progress" style="display:inline-block;width:120px;vertical-align:middle;margin-left:8px"><i style="width:10%"></i></span></b></div>
+              <div class="kv"><span>任务节点反馈及时率</span><b>5% <span class="progress" style="display:inline-block;width:120px;vertical-align:middle;margin-left:8px"><i style="width:5%"></i></span></b></div>
+              <p class="c3 s12 mt12" style="line-height:1.7">为评价更公平，后续版本将引入订单难度系数，对长距离、恶劣天气、严格时间窗和卸货时间较长的任务进行修正。</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-trophy"/></svg>司机效率排名</div><div class="tabs"><button class="on">今日</button><button>本周</button></div></div>
+            <div class="card-b" style="padding-top:6px">
+              <div class="rank-row"><span class="no top">1</span><span class="avatar a3">张</span><span class="grow"><b class="s13">张伟</b><span class="c3 s12 block">完成 46 单 · 准时 98%</span></span><b class="num green">96.2</b><span class="badge green" style="margin-left:8px">↑2</span></div>
+              <div class="rank-row"><span class="no top">2</span><span class="avatar a1">李</span><span class="grow"><b class="s13">李强</b><span class="c3 s12 block">完成 42 单 · 准时 96%</span></span><b class="num green">94.8</b><span class="badge green" style="margin-left:8px">↑1</span></div>
+              <div class="rank-row"><span class="no top">3</span><span class="avatar a4">陈</span><span class="grow"><b class="s13">陈志明</b><span class="c3 s12 block">完成 40 单 · 准时 95%</span></span><b class="num green">93.5</b><span class="badge gray" style="margin-left:8px">—</span></div>
+              <div class="rank-row"><span class="no mid">4</span><span class="avatar a5">刘</span><span class="grow"><b class="s13">刘国华</b><span class="c3 s12 block">完成 38 单 · 准时 93%</span></span><b class="num">91.9</b><span class="badge red" style="margin-left:8px">↓1</span></div>
+              <div class="rank-row"><span class="no mid">5</span><span class="avatar a2">周</span><span class="grow"><b class="s13">周海生</b><span class="c3 s12 block">完成 35 单 · 准时 92%</span></span><b class="num">90.3</b><span class="badge green" style="margin-left:8px">↑3</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== 运输数据分析 ================== -->
+      <section class="pc-view hidden" id="v-analysis">
+        <div class="page-title"><div><h2>运输数据分析</h2><p>订单完成 · 准时率 · 装载率 · 里程趋势 · AI 优化效果对比</p></div>
+          <div class="flex gap8"><div class="tabs"><button>日</button><button class="on">周</button><button>月</button><button>自定义</button></div><button class="btn ghost"><svg class="ic"><use href="#i-download"/></svg>导出报表</button></div></div>
+        <div class="kpis c4" style="margin-bottom:14px">
+          <div class="kpi"><div class="k-label">出库订单总量</div><div class="k-val num">128</div><div class="k-sub"><span class="k-trend green">↑ 8.5%</span><span>较上周同期</span></div></div>
+          <div class="kpi"><div class="k-label">订单完成率</div><div class="k-val num">94.1%</div><div class="k-sub"><span class="k-trend green">↑ 2.3%</span><span>已完成 82 / 已关闭 25</span></div></div>
+          <div class="kpi"><div class="k-label">准时送达率</div><div class="k-val num">94.2%</div><div class="k-sub"><span class="k-trend green">↑ 1.8%</span><span>目标 ≥ 92%</span></div></div>
+          <div class="kpi"><div class="k-label">平均装载率</div><div class="k-val num">87%</div><div class="k-sub"><span class="k-trend green">↑ 6.0%</span><span>重量 / 体积综合</span></div></div>
+        </div>
+        <div class="grid-2" style="margin-bottom:14px">
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-chart"/></svg>订单量 & 准时率趋势</div><div class="legend"><span><i style="background:#2B6DE8"></i>订单量</span><span><i style="background:#17A46E"></i>准时率</span></div></div>
+            <div class="card-b">
+              <div class="chartbar">
+                <div class="bar"><div class="v" style="height:40%"><span class="tip">86</span></div><span>周一</span></div>
+                <div class="bar"><div class="v" style="height:52%"><span class="tip">112</span></div><span>周二</span></div>
+                <div class="bar"><div class="v" style="height:46%"><span class="tip">98</span></div><span>周三</span></div>
+                <div class="bar"><div class="v" style="height:62%"><span class="tip">128</span></div><span>周四</span></div>
+                <div class="bar"><div class="v" style="height:70%"><span class="tip">142</span></div><span>周五</span></div>
+                <div class="bar"><div class="v" style="height:56%"><span class="tip">118</span></div><span>周六</span></div>
+                <div class="bar"><div class="v" style="height:62%"><span class="tip">128</span></div><span>今日</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-map"/></svg>区域订单量与平均配送时长</div></div>
+            <div class="card-b">
+              <div class="rank-row"><span class="badge soft-brand" style="width:30px;height:30px;border-radius:9px">顺</span><span class="grow"><b class="s13">顺德区</b><div class="progress grow" style="width:auto;margin-top:4px"><i style="width:92%"></i></div></span><span class="s12 c3">46 单</span><span class="s12 c3">58min</span></div>
+              <div class="rank-row"><span class="badge" style="width:30px;height:30px;border-radius:9px;background:var(--purple);color:#fff">南</span><span class="grow"><b class="s13">南海区</b><div class="progress grow" style="width:auto;margin-top:4px"><i style="width:72%"></i></div></span><span class="s12 c3">36 单</span><span class="s12 c3">46min</span></div>
+              <div class="rank-row"><span class="badge" style="width:30px;height:30px;border-radius:9px;background:var(--cyan);color:#fff">番</span><span class="grow"><b class="s13">番禺区</b><div class="progress grow" style="width:auto;margin-top:4px"><i style="width:56%"></i></div></span><span class="s12 c3">28 单</span><span class="s12 c3">72min</span></div>
+              <div class="rank-row"><span class="badge" style="width:30px;height:30px;border-radius:9px;background:var(--green);color:#fff">三</span><span class="grow"><b class="s13">三水区</b><div class="progress grow" style="width:auto;margin-top:4px"><i style="width:38%"></i></div></span><span class="s12 c3">19 单</span><span class="s12 c3">66min</span></div>
+              <div class="rank-row"><span class="badge" style="width:30px;height:30px;border-radius:9px;background:var(--amber);color:#fff">南</span><span class="grow"><b class="s13">南沙区</b><div class="progress grow" style="width:auto;margin-top:4px"><i style="width:22%"></i></div></span><span class="s12 c3">11 单</span><span class="s12 c3">88min</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-cpu"/></svg>AI 优化效果对比</div>
+            <div class="legend"><span><i style="background:#93A1B8"></i>人工排单</span><span><i style="background:#2B6DE8"></i>AI 排单</span></div></div>
+          <div class="card-b">
+            <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+              <div class="metric-chip"><span>平均排单耗时</span><b class="num" style="font-size:19px">2.5h → <span class="green">12min</span></b><span>降低 92%</span></div>
+              <div class="metric-chip"><span>使用车辆数</span><b class="num" style="font-size:19px">38 → <span class="green">32</span></b><span>减少 6 辆</span></div>
+              <div class="metric-chip"><span>平均装载率</span><b class="num" style="font-size:19px">81% → <span class="green">87%</span></b><span>提升 6%</span></div>
+              <div class="metric-chip"><span>准时送达率</span><b class="num" style="font-size:19px">92% → <span class="green">94.2%</span></b><span>提升 2.2%</span></div>
+            </div>
+            <div class="chartbar mt16" style="height:140px">
+              <div class="bar"><div class="v" style="height:60%;background:var(--ink3)"></div><span>总里程</span></div>
+              <div class="bar"><div class="v" style="height:46%"><span class="tip">-8.2%</span></div><span>AI 总里程</span></div>
+              <div class="bar"><div class="v" style="height:60%;background:var(--ink3)"></div><span>配送时长</span></div>
+              <div class="bar"><div class="v" style="height:50%"><span class="tip">-15%</span></div><span>AI 时长</span></div>
+            </div>
+            <p class="c3 s12 mt12">基于最近 3 个月历史订单离线对比 · AI 方案人工调整比例 <b class="brand">12.4%</b>（目标 &lt; 20%）</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================== 操作日志 ================== -->
+      <section class="pc-view hidden" id="v-audit">
+        <div class="page-title"><div><h2>操作日志</h2><p>记录登录、订单变更、AI 方案、人工调整与方案发布的完整操作链路</p></div>
+          <div class="flex gap8"><button class="btn ghost"><svg class="ic"><use href="#i-download"/></svg>导出日志</button></div></div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-b" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <div class="sel">操作类型 · 全部</div>
+            <div class="sel">操作对象 · 全部</div>
+            <div class="sel">操作结果 · 全部</div>
+            <input class="inp wide" placeholder="搜索操作人 / 对象编号…">
+            <button class="btn ghost sm"><svg class="ic"><use href="#i-search"/></svg>查询</button>
+            <span class="grow"></span><span class="c3 s12">共 2,846 条日志</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><div class="card-t"><svg class="ic"><use href="#i-log"/></svg>日志列表</div></div>
+          <div class="card-b">
+            <table class="tbl">
+              <thead><tr><th>操作时间</th><th>操作用户</th><th>操作类型</th><th>操作对象</th><th>修改前 / 修改后</th><th>操作结果</th></tr></thead>
+              <tbody>
+                <tr><td class="s12">2026-09-19 14:32:18</td><td class="s12">王调度</td><td><span class="badge soft-brand">AI 一键配载</span></td><td class="s12">调度方案 P-20260919-04</td><td class="s12">— → AI 配载建议 · 已确认执行</td><td><span class="badge green">成功</span></td></tr>
+                <tr><td class="s12">2026-09-19 14:36:05</td><td class="s12">王调度</td><td><span class="badge amber">人工调整</span></td><td class="s12">张伟 · CK20260919039</td><td class="s12">原司机：李强 → 张伟</td><td><span class="badge green">成功</span></td></tr>
+                <tr><td class="s12">2026-09-19 14:40:22</td><td class="s12">王调度</td><td><span class="badge brand">方案发布</span></td><td class="s12">配送任务 T-20260919-08</td><td class="s12">草稿 → 已发布</td><td><span class="badge green">成功</span></td></tr>
+                <tr><td class="s12">2026-09-19 14:45:40</td><td class="s12">王调度</td><td><span class="badge gray">订单修改</span></td><td class="s12">CK20260919046</td><td class="s12">收货地址 → 佛山市顺德区…</td><td><span class="badge green">成功</span></td></tr>
+                <tr><td class="s12">2026-09-19 14:51:09</td><td class="s12">李强 (司机)</td><td><span class="badge cyan">节点更新</span></td><td class="s12">T-20260919-08 · 到达加工厂</td><td class="s12">— → 龙江家具厂 14:50</td><td><span class="badge green">成功</span></td></tr>
+                <tr><td class="s12">2026-09-19 15:02:33</td><td class="s12">王调度</td><td><span class="badge gray">订单导入</span></td><td class="s12">Excel · 26 条</td><td class="s12">新增 24 · 重复 2</td><td><span class="badge amber">部分成功</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ============ 司机移动端外壳 ============ -->
+<div id="mobileShell" class="hidden">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="phone-screen" id="mobileScreen">
+      <!-- JS 渲染移动端视图 -->
+    </div>
+  </div>
+</div>
+
+<!-- ============ 设备切换器 ============ -->
+<div id="deviceSwitcher">
+  <button id="swPC" class="on" onclick="setMode('pc')"><svg class="ic" style="width:16px;height:16px"><use href="#i-menu"/></svg>PC 管理端</button>
+  <span class="seg">|</span>
+  <button id="swMobile" onclick="setMode('mobile')"><svg class="ic" style="width:16px;height:16px"><use href="#i-nav"/></svg>司机移动端</button>
+  <small>按 F 切换全屏</small>
+</div>
+
+<!-- ============ AI 一键配载弹窗容器 ============ -->
+<div id="aiModalRoot"></div>
+
+<script>
+/* ================= 工具 ================= */
+const $ = s => document.querySelector(s);
+const IC = (n,s,extra) => `<svg class="ic"${s?` style="width:${s}px;height:${s}px"`:''}${extra||''}><use href="#i-${n}"/></svg>`;
+const ST = {day:'2026-09-19'};
+
+/* ================= 设备模式 ================= */
+function setMode(m){
+  $('#loginScreen').classList.add('hidden');
+  $('#pcShell').classList.toggle('hidden', m!=='pc');
+  $('#mobileShell').classList.toggle('hidden', m!=='mobile');
+  const st = $('#stage'); if(st) st.classList.toggle('mobile-mode', m==='mobile');
+  $('#swPC').classList.toggle('on', m==='pc');
+  $('#swMobile').classList.toggle('on', m==='mobile');
+  if(m==='mobile') renderMobile();
+}
+function pcLogin(role){
+  role = role||'dispatcher';
+  const map = {
+    dispatcher:{n:'王调度',r:'调度员 · 林氏优采仓',a:'王',c:'home',v:'调度员首页'},
+    manager:{n:'林主管',r:'运输主管 · 林氏优采仓',a:'林',c:'home',v:'运输主管首页'},
+    driver:{n:'张伟',r:'司机 · 粤E·D8321',a:'张',c:'home',v:'司机端'}
+  };
+  const u = map[role]||map.dispatcher;
+  $('#sbAvatar').textContent = u.a;
+  $('#sbName').textContent = u.n;
+  $('#sbRole').textContent = u.r;
+  if(role==='driver'){ setMode('mobile'); return; }
+  setMode('pc');
+  go('home');
+}
+function pcLogout(){ $('#loginScreen').classList.remove('hidden'); $('#pcShell').classList.add('hidden'); $('#mobileShell').classList.add('hidden'); $('#swPC').classList.add('on'); $('#swMobile').classList.remove('on'); const st=$('#stage'); if(st) st.classList.remove('mobile-mode'); }
+
+/* ================= PC 视图切换 ================= */
+const NAV_TITLE = {
+  home:'管理首页', board:'实时运输看板', orders:'出库订单', dispatch:'智能调度中心',
+  sched:'排班管理', drivers:'司机管理', vehicles:'车辆管理', perf:'司机绩效', analysis:'运输数据分析', audit:'操作日志'
+};
+function go(v){
+  document.querySelectorAll('.pc-view').forEach(s=>s.classList.add('hidden'));
+  const t = $('#v-'+v); if(t) t.classList.remove('hidden');
+  document.querySelectorAll('#sideNav a').forEach(a=>a.classList.toggle('on', a.dataset.v===v));
+  $('#pcCrumb').innerHTML = NAV_TITLE[v]||'管理首页';
+  $('#pcBody').scrollTop = 0;
+}
+
+/* ================= 移动端渲染 ================= */
+const M = {};
+function mNav(title, right){
+  return `<div class="m-status"><span>9:41</span><span class="btns"><i></i></span></div>
+  <div class="m-nav"><button class="iconbtn" style="border:none;background:none;color:var(--ink2)" onclick="mBack()">${IC('chev-l',18)}</button>
+  <div class="m-title grow">${title}</div>${right||''}</div>`;
+}
+function mTabbar(active){
+  const tabs = [
+    ['today','i-task','今日'],['mapnav','i-nav','导航'],['mhist','i-history','历史'],['mperf','i-user','我的']
+  ];
+  return `<div class="m-tabbar">` + tabs.map(t=>`<a class="${t[0]===active?'on':''}" onclick="mGo('${t[0]}')"><span class="tab-ico">${IC(t[1],16)}</span>${t[2]}</a>`).join('') + `</div>`;
+}
+function mPage(inner, active){
+  return inner + mTabbar(active);
+}
+
+/* 司机登录 */
+function mLoginView(){
+  return `<div class="m-status"><span>9:41</span><span class="btns"><i></i></span></div>
+  <div style="min-height:calc(100% - 34px);background:linear-gradient(180deg,#0F2552 0%,#123069 45%,#fff 45%);padding:0 0 20px">
+    <div style="padding:26px 20px 30px;color:#fff;text-align:center">
+      <span class="logo-mark" style="width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,#5C9DFF,#2B6DE8);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 14px 30px -8px rgba(92,157,255,.8)">${IC('truck',28)}</span>
+      <div style="font-size:17px;font-weight:700;margin-top:12px">林氏优采 · 司机端</div>
+      <div style="font-size:11px;color:#9FB0D8;margin-top:4px">AI SMART TRANSPORTATION</div>
+    </div>
+    <div style="background:#fff;border-radius:22px;margin:0 16px;padding:22px 18px;box-shadow:0 12px 34px -10px rgba(16,34,66,.18)">
+      <div style="font-size:17px;font-weight:700">司机登录</div>
+      <div style="font-size:11.5px;color:var(--ink3);margin:3px 0 16px">手机号 + 密码 或 企业账号统一登录</div>
+      <div class="login-acc"><label class="lb">手机号</label><div class="flex gap8"><input class="inp" style="height:42px;border-radius:12px;flex:1" value="139 2803 6612"></div></div>
+      <div class="login-acc"><label class="lb">密码</label><input class="inp" type="password" style="height:42px;border-radius:12px;width:100%" value="••••••"></div>
+      <button class="m-btn primary" style="margin-top:6px" onclick="mGo('today')">${IC('out',17)} 登录工作台</button>
+      <div class="login-hint" style="margin-top:12px">登录即代表同意《用户服务协议》</div>
+    </div>
+    <div style="text-align:center;font-size:10.5px;color:var(--ink3);margin-top:16px">© 2026 林氏优采 · AI 智运平台</div>
+  </div>`;
+}
+
+/* 今日任务 */
+function mTodayView(){
+  const inner = `<div class="m-status"><span>9:41</span><span class="btns"><i></i></span></div>
+  <div style="background:linear-gradient(135deg,#16346E,#2B6DE8);padding:18px 18px 74px;color:#fff;border-radius:0 0 26px 26px">
+    <div class="flex between">
+      <div class="flex gap10"><span class="avatar a1 lg" style="box-shadow:0 6px 14px rgba(0,0,0,.2)">张</span>
+        <div><div style="font-size:14px;font-weight:600">张伟师傅，下午好</div><div style="font-size:11px;color:#B9C8E8;margin-top:2px">粤E·D8321 · 厢式货车 5t</div></div></div>
+      <span class="iconbtn" style="background:rgba(255,255,255,.14);border-color:transparent;color:#fff">${IC('bell',17)}<span class="dot"></span></span>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <div style="flex:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:700">8</div><div style="font-size:10.5px;color:#C7D6F2">今日任务</div></div>
+      <div style="flex:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:700">5</div><div style="font-size:10.5px;color:#C7D6F2">待配送</div></div>
+      <div style="flex:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:700">3</div><div style="font-size:10.5px;color:#C7D6F2">已完成</div></div>
+    </div>
+    <div class="flex between" style="margin-top:16px;font-size:11px;color:#B9C8E8"><span>预计总里程 118.6km</span><span>预计完成 16:20</span></div>
+    <div class="progress" style="background:rgba(255,255,255,.2);margin-top:8px"><i style="width:38%;background:linear-gradient(90deg,#F7C04A,#F59E0B)"></i></div>
+    <div style="font-size:10.5px;color:#B9C8E8;margin-top:6px;text-align:right">今日进度 38%</div>
+  </div>
+  <div style="margin:-48px 14px 0">
+    <div class="m-card" style="box-shadow:0 14px 30px -10px rgba(16,34,66,.2)">
+      <div class="mcard-t"><b>${IC('route',15,' style="color:var(--brand)"')} 当前任务</b><span class="badge green">配送中</span></div>
+      <div class="flex gap10" style="margin-bottom:10px"><span class="avatar a1" style="width:36px;height:36px">顺</span>
+        <div class="grow"><b class="s14">南海利达纺织</b><div class="c3 s12">佛山市南海区狮山镇兴业路 88 号</div></div></div>
+      <div class="flex gap8" style="font-size:11.5px;color:var(--ink2);margin-bottom:12px">
+        <span class="badge gray">订单 CK20260919045</span><span class="badge gray">棉布 8 卷</span><span class="badge gray">520kg</span>
+      </div>
+      <div class="flex gap10" style="margin-bottom:12px">
+        <div class="metric-chip grow"><b class="num">6.8km</b><span>距下一站</span></div>
+        <div class="metric-chip grow"><b class="num">14:50</b><span>预计到达</span></div>
+        <div class="metric-chip grow"><b class="num">08:40</b><span>已出发</span></div>
+      </div>
+      <button class="m-btn primary" onclick="mGo('mapnav')">${IC('nav',17)} 开始导航</button>
+    </div>
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('task',15,' style="color:var(--brand)"')} 配送任务</b><span class="c3 s12" style="cursor:pointer" onclick="mGo('mhist')">全部</span></div>
+      <div class="rank-row" onclick="mGo('detail')"><span class="no top">1</span><span class="avatar a1">顺</span><span class="grow"><b class="s13">南海利达纺织</b><span class="c3 s12 block">08:40 已出发 · 预计 14:50 到</span></span><span class="badge cyan">进行中</span></div>
+      <div class="rank-row" onclick="mGo('detail')"><span class="no top">2</span><span class="avatar a4">金</span><span class="grow"><b class="s13">顺德金盛皮具</b><span class="c3 s12 block">预计 16:10 到 · 大良街道</span></span><span class="c3 s12">待配送</span></div>
+      <div class="rank-row" onclick="mGo('detail')"><span class="no top">3</span><span class="avatar a5">番</span><span class="grow"><b class="s13">广州番禺华美布行</b><span class="c3 s12 block">预计 18:30 到 · 南村镇</span></span><span class="c3 s12">待配送</span></div>
+      <div class="rank-row"><span class="no mid">✓</span><span class="avatar a2">万</span><span class="grow"><b class="s13">三水万达皮革</b><span class="c3 s12 block">已签收 · 08:22</span></span><span class="badge green">完成</span></div>
+    </div>
+  </div>`;
+  return mPage(inner,'today');
+}
+
+/* 任务详情 */
+function mDetailView(){
+  const inner = mNav('任务详情', `<span class="badge green" style="height:24px">配送中</span>`) +
+  `<div class="m-view">
+    <div class="m-card">
+      <div class="flex gap10">
+        <span class="avatar a1 lg">张</span>
+        <div class="grow"><b class="s14">张伟 · 粤E·D8321</b><div class="c3 s12">厢式货车 · 最大载重 5t / 25m³</div></div>
+      </div>
+      <div class="flex between mt8 s12"><span class="c3">推荐出发时间</span><b>08:00</b></div>
+      <div class="flex between s12"><span class="c3">预计返仓时间</span><b>18:50</b></div>
+      <div class="flex between s12"><span class="c3">预计总里程</span><b class="num">118.6 km</b></div>
+      <div class="flex between s12"><span class="c3">重量 / 体积装载率</span><b class="num green">91% / 86%</b></div>
+      <div class="progress mt8"><i style="width:91%"></i></div>
+    </div>
+
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('route',15,' style="color:var(--brand)"')} 路线预览</b><span class="c3 s12" style="cursor:pointer" onclick="mGo('mapnav')">打开全屏导航 ›</span></div>
+      <div style="position:relative;height:150px;border-radius:12px;background:#E8EEF6;overflow:hidden">
+        <div class="grid" style="position:absolute;inset:0;background-image:linear-gradient(rgba(120,160,210,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,210,.16) 1px,transparent 1px);background-size:26px 26px"></div>
+        <div class="road h" style="left:0;right:0;top:38%;position:absolute;background:rgba(255,255,255,.9);height:5px"></div>
+        <div class="road v" style="top:0;bottom:0;left:56%;position:absolute;background:rgba(255,255,255,.9);width:5px"></div>
+        <div class="route-line" style="left:10%;top:46%;width:44%;transform:rotate(-8deg)"></div>
+        <div class="route-line alt1" style="left:46%;top:34%;width:34%;transform:rotate(-32deg)"></div>
+        <div class="map-pin" style="left:10%;top:46%"><span class="dot" style="background:#2B6DE8;width:11px;height:11px"></span><div class="plabel" style="font-size:9px">仓</div></div>
+        <div class="map-pin" style="left:34%;top:38%"><span class="dot" style="background:#17A46E;width:13px;height:13px"></span><div class="plabel" style="font-weight:700;font-size:9px">①南海利达</div></div>
+        <div class="map-pin" style="left:62%;top:24%"><span class="dot" style="background:#93A1B8;width:11px;height:11px"></span><div class="plabel" style="font-size:9px">②顺德金盛</div></div>
+        <div class="map-pin" style="left:78%;top:44%"><span class="dot" style="background:#93A1B8;width:11px;height:11px"></span><div class="plabel" style="font-size:9px">③番禺华美</div></div>
+        <div class="map-car" style="left:22%;top:44%"><div class="car-body" style="width:24px;height:24px"><svg class="ic" style="width:13px;height:13px"><use href="#i-truck"/></svg></div></div>
+      </div>
+      <div class="trip-line" style="margin-top:10px">
+        <span class="t-dot" style="background:#2B6DE8"></span><span class="t-time">08:00</span><span class="t-name">林氏优采仓 出发</span><span class="t-tag c3">0 km</span>
+      </div>
+      <div class="trip-line">
+        <span class="t-dot" style="background:#17A46E"></span><span class="t-time">14:50</span><span class="t-name">南海利达纺织 到达</span><span class="t-tag amber">卸货 35min</span>
+      </div>
+      <div class="trip-line">
+        <span class="t-dot" style="background:#F59E0B"></span><span class="t-time">16:10</span><span class="t-name">顺德金盛皮具 到达</span><span class="t-tag amber">卸货 30min</span>
+      </div>
+      <div class="trip-line">
+        <span class="t-dot" style="background:#8B5CF6"></span><span class="t-time">18:30</span><span class="t-name">广州番禺华美布行 到达</span><span class="t-tag amber">卸货 40min</span>
+      </div>
+    </div>
+
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('clock',15,' style="color:var(--brand)"')} 预计到达说明</b></div>
+      <div class="ai-reason" style="background:linear-gradient(135deg,#EEF4FF,#F3F8FF);border:1px solid #D9E7FF;border-radius:12px;padding:10px">
+        <div class="flex gap6 s12 bold brand" style="margin-bottom:4px">${IC('cpu',14)} AI 到达预估</div>
+        <div class="s12 c2">当前距下一站 6.8km，按 28km/h 平均车速预计 <b class="brand">14:50</b> 到达。沿途 2 处信号灯拥堵点，约延误 5 分钟；卸货窗口 35 分钟，预计 15:25 前可完成本站。</div>
+      </div>
+      <div class="flex between mt8 s12"><span class="c3">到站时间窗</span><b>09:00 - 12:00</b></div>
+      <div class="flex between s12"><span class="c3">建议开始卸货</span><b class="brand">到达后立即操作</b></div>
+    </div>
+
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('cloud',15,' style="color:var(--brand)"')} 天气 & 路况</b></div>
+      <div class="flex gap8">
+        <div style="flex:1;background:#E1F4FD;border-radius:12px;padding:10px;text-align:center">
+          <div class="flex gap4" style="justify-content:center;align-items:center;margin-bottom:4px">${IC('rain',16,' style="color:#0E9BD8"')}<b class="s16">26°</b></div>
+          <div class="s11 c2">佛山 · 阵雨</div>
+          <div class="s11 c3">降水 70% · 东南风3级</div>
+        </div>
+        <div style="flex:1;background:#FEF3DE;border-radius:12px;padding:10px;text-align:center">
+          <div class="flex gap4" style="justify-content:center;align-items:center;margin-bottom:4px">${IC('alert',16,' style="color:#F59E0B"')}<b class="s16">中度</b></div>
+          <div class="s11 c2">广佛路 · 轻微拥堵</div>
+          <div class="s11 c3">13:20 前出发避开高峰</div>
+        </div>
+      </div>
+      <div class="alertbar amber mt8" style="padding:8px 10px"><svg class="ic" style="width:15px;height:15px"><use href="#i-rain"/></svg><b>暴雨预警</b><span class="grow s12">15:00-18:00 顺德区 · 请携带雨具防潮垫布</span></div>
+    </div>
+
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('route',15,' style="color:var(--brand)"')} 配送顺序</b><span class="c3 s12">3 单</span></div>
+      <div class="m-step">
+        <div class="s-line"></div>
+        <div class="step done"><div class="s-dot">${IC('check',14)}</div><div class="s-info grow"><b>三水万达皮革</b><span class="block">已签收 08:22 · 配送顺序 #1</span><span class="badge green" style="margin-top:4px">完成</span></div></div>
+        <div class="step cur"><div class="s-dot">${IC('truck',14)}</div><div class="s-info grow"><b>南海利达纺织 <span class="badge cyan" style="margin-left:4px">当前</span></b><span class="block">佛山市南海区狮山镇兴业路 88 号</span><span class="block">联系人：李小姐 1362203*** · 棉布 8 卷 / 520kg</span><span class="block">时间窗 09:00-12:00 · 预计卸货 35min</span></div></div>
+        <div class="step pend"><div class="s-dot">2</div><div class="s-info grow"><b>顺德金盛皮具</b><span class="block">佛山市顺德区大良街道 · 皮具 3 件 / 150kg</span><span class="block">时间窗 14:00-18:00</span></div></div>
+        <div class="step pend"><div class="s-dot">3</div><div class="s-info grow"><b>广州番禺华美布行</b><span class="block">广州市番禺区南村镇 · 皮革 6 卷 / 410kg</span><span class="block">时间窗 10:00-14:00 · 加急</span></div></div>
+      </div>
+    </div>
+
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('shield',15,' style="color:var(--brand)"')} 配送要求</b></div>
+      <div class="kv"><span>货物</span><b>棉布 / 皮革，需防潮垫布</b></div>
+      <div class="kv"><span>签收要求</span><b>纸质签收单 + 现场照片</b></div>
+      <div class="kv"><span>注意事项</span><b>番禺南村镇限高 3.2m</b></div>
+    </div>
+
+    <div class="m-card" style="border:1px solid #CDE5FF;background:linear-gradient(135deg,#F2F7FF,#F8FBFF)">
+      <div class="mcard-t"><b>${IC('check-c',15,' style="color:var(--brand)"')} 站点操作</b><span class="c3 s12">到达后按顺序操作</span></div>
+      <div class="flex gap8">
+        <button class="m-btn ghost grow" style="height:44px;font-size:13px" onclick="mGo('mnode')">${IC('pin',15)} 签到</button>
+        <button class="m-btn ghost grow" style="height:44px;font-size:13px" onclick="mGo('mnode')">${IC('refresh',15)} 签退</button>
+      </div>
+      <button class="m-btn primary" style="margin-top:10px;height:46px" onclick="mGo('sign')">${IC('cam',16)} 签收信息上传</button>
+      <div class="c3 s12 mt8" style="text-align:center">签收需上传：纸质签收单 + 现场交货照片 + 电子签名</div>
+    </div>
+
+    <div class="action-bar">
+      <button class="m-btn ghost grow" onclick="mGo('mnode')">${IC('check',16)} 节点回报</button>
+      <button class="m-btn primary grow" onclick="mGo('mapnav')">${IC('nav',16)} 地图导航</button>
+    </div>
+  </div>`;
+  return mPage(inner,'today');
+}
+
+/* 地图导航 */
+function mMapView(){
+  const inner = `<div class="m-status"><span>9:41</span><span class="btns"><i></i></span></div>
+  <div style="background:#CFDDEB;flex:1;position:relative;overflow:hidden">
+    <div class="grid" style="position:absolute;inset:0;background-image:linear-gradient(rgba(120,160,210,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,210,.18) 1px,transparent 1px);background-size:30px 30px"></div>
+    <div class="road h" style="left:0;right:0;top:34%;position:absolute;background:rgba(255,255,255,.85);height:6px"></div>
+    <div class="road v" style="top:0;bottom:0;left:48%;position:absolute;background:rgba(255,255,255,.85);width:6px"></div>
+    <div class="road h" style="left:0;right:0;top:70%;position:absolute;background:rgba(255,255,255,.85);height:6px"></div>
+    <div class="route-line" style="left:18%;top:52%;width:34%;transform:rotate(-14deg)"></div>
+    <div class="route-line" style="left:48%;top:46%;width:26%;transform:rotate(-38deg)"></div>
+    <div class="map-pin" style="left:18%;top:52%"><span class="dot" style="background:#2B6DE8"></span><div class="plabel">林氏优采仓</div></div>
+    <div class="map-pin" style="left:44%;top:44%"><span class="dot" style="background:#17A46E;width:16px;height:16px"></span><div class="plabel" style="font-weight:700">南海利达纺织</div></div>
+    <div class="map-pin" style="left:68%;top:30%"><span class="dot" style="background:#93A1B8"></span><div class="plabel">顺德金盛皮具</div></div>
+    <div class="map-car" style="left:30%;top:50%"><div class="car-body"><svg class="ic"><use href="#i-truck"/></svg></div></div>
+    <button class="iconbtn" style="position:absolute;top:14px;left:14px;background:#fff;z-index:6" onclick="mBack()">${IC('chev-l',17)}</button>
+    <div class="iconbtn" style="position:absolute;top:14px;right:14px;background:#fff;z-index:6">${IC('menu',17)}</div>
+    <div class="iconbtn" style="position:absolute;bottom:150px;right:14px;background:#fff;z-index:6">${IC('gps',17)}</div>
+    <div class="m-card" style="position:absolute;left:12px;right:12px;bottom:12px;z-index:6;margin:0;border-radius:18px">
+      <div class="flex gap10">
+        <div class="grow">
+          <div class="flex gap6 s13 bold">${IC('pin',14,' style="color:var(--brand)"')} 下一站 · 南海利达纺织</div>
+          <div class="c3 s12 mt4">佛山市南海区狮山镇兴业路 88 号 · 剩余 6.8km</div>
+        </div>
+        <span class="badge brand" style="height:30px;font-size:13px">14:50 到达</span>
+      </div>
+      <div class="flex gap8 mt12">
+        <button class="m-btn ghost grow" style="height:42px;font-size:13px">${IC('phone',15)} 联系收货人</button>
+        <button class="m-btn amber grow" style="height:42px;font-size:13px">${IC('nav',15)} 一键导航</button>
+      </div>
+      <button class="m-btn primary" style="margin-top:10px;height:44px;font-size:14px" onclick="mGo('mnode')">${IC('check',15)} 已到达 · 开始卸货</button>
+    </div>
+  </div>`;
+  return mPage(inner,'mapnav');
+}
+
+/* 节点回报 */
+function mNodeView(){
+  const inner = mNav('节点回报', `<span class="badge green">配送中</span>`) +
+  `<div class="m-view">
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('truck',15,' style="color:var(--brand)"')} 当前站点 · 南海利达纺织</b></div>
+      <div class="kv"><span>配送顺序</span><b>第 2 / 4 站</b></div>
+      <div class="kv"><span>联系人</span><b>李小姐 · 136 2203 8890</b></div>
+      <div class="kv"><span>预计到达</span><b class="num">14:50</b></div>
+      <div class="kv"><span>预计卸货</span><b class="num">35 分钟</b></div>
+    </div>
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('clock',15,' style="color:var(--brand)"')} 配送节点进度</b><span class="c3 s12">每次操作自动记录时间与位置</span></div>
+      <div class="m-step">
+        <div class="s-line"></div>
+        <div class="step done"><div class="s-dot">${IC('check',14)}</div><div class="s-info grow"><b>确认接单</b><span class="block">07:58 · 已确认接收任务</span></div></div>
+        <div class="step done"><div class="s-dot">${IC('check',14)}</div><div class="s-info grow"><b>确认出发</b><span class="block">08:00 · 林氏优采仓出发</span></div></div>
+        <div class="step done"><div class="s-dot">${IC('check',14)}</div><div class="s-info grow"><b>到达加工厂</b><span class="block">08:22 · 三水万达皮革 (第1站)</span></div></div>
+        <div class="step cur"><div class="s-dot">${IC('truck',14)}</div><div class="s-info grow"><b>开始卸货</b><span class="block">当前站点 · 待操作</span></div></div>
+        <div class="step pend"><div class="s-dot">${IC('cam',14)}</div><div class="s-info grow"><b>完成卸货 / 签收</b><span class="block">需上传签收凭证</span></div></div>
+        <div class="step pend"><div class="s-dot">${IC('refresh',14)}</div><div class="s-info grow"><b>开始返仓 / 已返仓</b><span class="block">全部站点完成后操作</span></div></div>
+      </div>
+    </div>
+    <div class="action-bar">
+      <button class="m-btn primary" onclick="mGo('sign')">${IC('check',16)} 确认已到达 · 开始卸货</button>
+    </div>
+    <div class="c3 s12" style="text-align:center;margin-top:6px">当前位置：佛山南海区狮山镇 · 14:32:08</div>
+  </div>`;
+  return mPage(inner,'today');
+}
+
+/* 签收上传 */
+function mSignView(){
+  const inner = mNav('签收上传', `<span class="badge green">南海利达纺织</span>`) +
+  `<div class="m-view">
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('box',15,' style="color:var(--brand)"')} 订单信息</b><span class="badge gray">CK20260919045</span></div>
+      <div class="kv"><span>加工厂</span><b>南海利达纺织</b></div>
+      <div class="kv"><span>货物</span><b>棉布 8 卷 · 520kg</b></div>
+      <div class="kv"><span>时间窗</span><b>09:00-12:00</b></div>
+    </div>
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('cam',15,' style="color:var(--brand)"')} 签收凭证</b><span class="c3 s12">必传</span></div>
+      <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="upload-box" style="border:2px dashed #D5E0F0;border-radius:14px;height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink3);background:#F8FAFF;font-size:11px">${IC('upload',22,' style="color:var(--brand);margin-bottom:6px"')}<b class="s12 c2">纸质签收单</b>拍摄 / 相册</div>
+        <div class="upload-box" style="border:2px dashed #D5E0F0;border-radius:14px;height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink3);background:#F8FAFF;font-size:11px">${IC('upload',22,' style="color:var(--brand);margin-bottom:6px"')}<b class="s12 c2">现场交货照片</b>拍摄 / 相册</div>
+      </div>
+    </div>
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('sig',15,' style="color:var(--brand)"')} 电子签名</b></div>
+      <div style="border:1px solid var(--line);border-radius:14px;height:110px;background:#FAFBFE;position:relative">
+        <svg viewBox="0 0 340 100" style="width:100%;height:100%"><path d="M30 80 C 60 40, 80 30, 110 55 S 160 90, 190 55 S 250 25, 310 45" fill="none" stroke="#2B6DE8" stroke-width="3" stroke-linecap="round" opacity=".8"/></svg>
+        <span style="position:absolute;left:12px;bottom:8px;font-size:10px;color:var(--ink3)">请收货人签写姓名</span>
+      </div>
+      <div class="flex gap8 mt12">
+        <div class="inp grow" style="display:flex;align-items:center;gap:6px;color:var(--ink3)">${IC('user',14)} 收货人姓名</div>
+        <div class="inp" style="width:90px">已签收</div>
+      </div>
+      <div class="kv mt12"><span>实际签收数量</span><b>8 卷</b></div>
+    </div>
+    <button class="m-btn green" onclick="mGo('today')">${IC('check-c',17)} 确认签收 · 完成本单</button>
+    <div class="c3 s12" style="text-align:center;margin-top:8px">签收时间与位置将自动记录</div>
+  </div>`;
+  return mPage(inner,'today');
+}
+
+/* 历史任务 */
+function mHistView(){
+  const inner = `<div class="m-status"><span>9:41</span><span class="btns"><i></i></span></div>
+  <div class="m-nav"><div class="m-title grow">${IC('history',16,' style="color:var(--brand)"')} 历史任务</div><span class="badge gray">近30天 62单</span></div>
+  <div class="m-view">
+    <div class="flex gap8" style="overflow-x:auto;padding-bottom:2px">
+      <span class="badge brand" style="height:30px;font-size:12px">2026-09-18</span><span class="badge gray" style="height:30px;font-size:12px">09-17</span><span class="badge gray" style="height:30px;font-size:12px">09-16</span><span class="badge gray" style="height:30px;font-size:12px">本周</span><span class="badge gray" style="height:30px;font-size:12px">本月</span>
+    </div>
+    <div class="m-card">
+      <div class="flex between"><span class="badge green">全部完成</span><span class="c3 s12">2026-09-18</span></div>
+      <div class="flex gap10 mt12"><span class="avatar a1">张</span><div class="grow"><b class="s13">粤E·D8321 · 5 单</b><div class="c3 s12">实际里程 128.4km · 时长 7.2h</div></div><span class="s12 c3">08:02-16:48</span></div>
+      <div class="rank-row" style="margin-top:6px"><span class="no mid">✓</span><span class="grow"><b class="s12">顺德龙江家具厂</b><span class="c3 s12 block">布艺 10卷 · 已签收 10:12</span></span></div>
+      <div class="rank-row"><span class="no mid">✓</span><span class="grow"><b class="s12">顺德宏业皮革厂</b><span class="c3 s12 block">PU革 12卷 · 已签收 11:30</span></span></div>
+      <div class="rank-row"><span class="no mid">✓</span><span class="grow"><b class="s12">三水万达皮革</b><span class="c3 s12 block">超纤 5卷 · 已签收 14:05</span></span></div>
+    </div>
+    <div class="m-card">
+      <div class="flex between"><span class="badge green">全部完成</span><span class="c3 s12">2026-09-17</span></div>
+      <div class="flex gap10 mt12"><span class="avatar a1">张</span><div class="grow"><b class="s13">粤E·D8321 · 4 单</b><div class="c3 s12">实际里程 96.2km · 时长 6.4h</div></div><span class="s12 c3">08:10-15:30</span></div>
+      <div class="rank-row" style="margin-top:6px"><span class="no mid">✓</span><span class="grow"><b class="s12">番禺华美布行</b><span class="c3 s12 block">皮革 6卷 · 已签收 11:20</span></span></div>
+      <div class="rank-row"><span class="no mid">✓</span><span class="grow"><b class="s12">顺德金盛皮具</b><span class="c3 s12 block">皮具 3件 · 已签收 14:40</span></span></div>
+    </div>
+  </div>`;
+  return mPage(inner,'mhist');
+}
+
+/* 个人绩效 */
+function mPerfView(){
+  const inner = `<div class="m-status"><span>9:41</span><span class="btns"><i></i></span></div>
+  <div class="m-nav"><div class="m-title grow">${IC('trophy',16,' style="color:var(--brand)"')} 个人绩效</div><span class="badge brand">本月</span></div>
+  <div class="m-view">
+    <div class="m-card" style="background:linear-gradient(135deg,#16346E,#2B6DE8);border:none;color:#fff">
+      <div class="flex gap12" style="align-items:center">
+        <div class="score-ring" style="width:86px;height:86px">
+          <svg width="86" height="86"><circle cx="43" cy="43" r="36" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="9"/><circle cx="43" cy="43" r="36" fill="none" stroke="#F7C04A" stroke-width="9" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="28"/></svg>
+          <div class="sc" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><b style="font-size:22px;color:#fff">88.6</b><span style="font-size:9.5px;color:#C7D6F2">综合绩效分</span></div>
+        </div>
+        <div class="grow">
+          <div style="font-size:15px;font-weight:700">本月表现优秀</div>
+          <div style="font-size:11.5px;color:#B9C8E8;margin-top:4px">当前排名 <b style="color:#F7C04A;font-size:16px">#3</b> / 18 · <span class="green" style="color:#7CE0B6">↑ 2 名</span></div>
+          <div class="flex gap8 mt12"><span class="badge" style="background:rgba(255,255,255,.14);color:#fff">完成 126 单</span><span class="badge" style="background:rgba(255,255,255,.14);color:#fff">准时 96%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="m-card" style="margin:0;padding:12px;text-align:center"><b class="num s20">96.0%</b><div class="c3 s11">准时送达率</div></div>
+      <div class="m-card" style="margin:0;padding:12px;text-align:center"><b class="num s20">52.6min</b><div class="c3 s11">平均配送时长</div></div>
+      <div class="m-card" style="margin:0;padding:12px;text-align:center"><b class="num s20">18.3min</b><div class="c3 s11">平均卸货时长</div></div>
+      <div class="m-card" style="margin:0;padding:12px;text-align:center"><b class="num s20">1.8%</b><div class="c3 s11">里程偏差率</div></div>
+    </div>
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('chart',15,' style="color:var(--brand)"')} 绩效趋势</b><div class="tabs" style="padding:2px"><button class="on">月</button><button>周</button></div></div>
+      <div class="chartbar" style="height:110px">
+        <div class="bar"><div class="v" style="height:40%"></div><span>W1</span></div>
+        <div class="bar"><div class="v" style="height:58%"></div><span>W2</span></div>
+        <div class="bar"><div class="v" style="height:72%"></div><span>W3</span></div>
+        <div class="bar"><div class="v" style="height:88%"></div><span>W4</span></div>
+        <div class="bar"><div class="v" style="height:82%"></div><span>本周</span></div>
+      </div>
+    </div>
+    <div class="m-card">
+      <div class="mcard-t"><b>${IC('trophy',15,' style="color:var(--brand)"')} 绩效明细</b></div>
+      <div class="kv"><span>准时送达率 (30%)</span><b class="green">96.0% · 优秀</b></div>
+      <div class="kv"><span>单位时间完成订单 (20%)</span><b class="green">4.2 单/h</b></div>
+      <div class="kv"><span>里程偏差率 (15%)</span><b class="green">1.8%</b></div>
+      <div class="kv"><span>平均卸货等待 (10%)</span><b class="amber">14.2 min</b></div>
+      <div class="kv"><span>客户签收完成率 (10%)</span><b class="green">100%</b></div>
+      <div class="kv"><span>任务节点反馈及时率 (5%)</span><b class="green">98%</b></div>
+    </div>
+  </div>`;
+  return mPage(inner,'mperf');
+}
+
+M.today = mTodayView;
+M.detail = mDetailView;
+M.mapnav = mMapView;
+M.mnode = mNodeView;
+M.sign = mSignView;
+M.mhist = mHistView;
+M.mperf = mPerfView;
+
+let mViewStack = [];
+function mGo(name){
+  if(name==='today'){ $('#mobileScreen').innerHTML = M.today(); mViewStack=[]; return; }
+  mViewStack.push(name);
+  $('#mobileScreen').innerHTML = M[name]();
+  $('#mobileScreen').scrollTop = 0;
+}
+function mBack(){
+  const prev = mViewStack.pop();
+  if(prev){ $('#mobileScreen').innerHTML = M[prev](); }
+  else { $('#mobileScreen').innerHTML = M.today(); }
+  $('#mobileScreen').scrollTop = 0;
+}
+function renderMobile(){
+  const el = $('#mobileScreen');
+  const cur = el.innerHTML.replace(/<!--[\s\S]*?-->/g,'').trim();
+  if(!cur || cur.length < 5) el.innerHTML = mLoginView();
+}
+document.addEventListener('keydown', e=>{
+  if(e.key==='f'||e.key==='F'){
+    if(!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+    else document.exitFullscreen && document.exitFullscreen();
+  }
+});
+
+/* =================================================
+   AI 一键配载
+   ================================================= */
+const AI_THINK_STEPS = [
+  {ico:'box',  k:'读取当日订单', v:'共 46 笔待排订单，其中加急 3 笔、指定司机 2 笔、禁止合单 4 笔 · 计划交期均已解析'},
+  {ico:'pin',  k:'解析路线与区域', v:'按省市区聚类后识别出顺德 / 南海 / 番禺 / 三水 4 个配送集群，顺路订单初步归组 12 组'},
+  {ico:'sun',  k:'接入天气信息', v:'佛山 15:00-18:00 阵雨，南海 / 顺德有暴雨风险 · 需提前发车时间并避开低洼路段'},
+  {ico:'users',k:'匹配司机排班', v:'今日在班司机 12 名（早班 6 / 晚班 4 / 机动 2），1 名请假 · 优先早班优先分配'},
+  {ico:'truck',k:'评估车辆装载', v:'校验 45 台车辆载重 / 载积约束 · 淘汰超载组合 3 组，候选车辆 12 台'},
+  {ico:'alert',k:'计算拥堵与时效', v:'参考实时路况，广佛高速下午 16:30 后中度拥堵 · 加急订单 PK 值上调 20%'},
+  {ico:'clock',k:'校验时间窗', v:'复核各订单送达时间窗与预计卸货时长，2 笔早班截止单需首站优先送达'},
+  {ico:'trophy',k:'结合司机表现', v:'综合历史准时率 / 卸货等待 / 节点反馈及时率，早班张伟 96.2 分排序靠前'},
+  {ico:'cpu',  k:'运筹求解最优组合', v:'采用带时间窗车辆路径优化，迭代 12,480 次 · 综合成本较人工方案下降 12.6%'},
+  {ico:'check',k:'生成配载结果', v:'输出 4 名司机配载方案 · 1 笔订单因超载无法分配，详见结果'}
+];
+const AI_DRIVER_PLANS = [
+  {
+    name:'张伟', avatar:'a1', tag:'张', plate:'粤E·D8321', type:'厢式货车 5t/25m³',
+    shift:'早班 06:00-14:00', shiftCls:'am',
+    orders:[{n:'CK20260919045',hot:false},{n:'CK20260919041',hot:false},{n:'CK20260919039',hot:true}],
+    load:92, loadLabel:'92%', route:'① 南海利达纺织 ② 顺德金盛皮具 ③ 广州番禺华美',
+    meta:[['里程','68.4km'],['出发','08:00'],['装载','91%/86%'],['准时率','97%']],
+    stops:[
+      {n:1, name:'南海利达纺织', area:'佛山市南海区狮山镇', eta:'08:40 到', unload:'卸货 35min'},
+      {n:2, name:'顺德金盛皮具', area:'佛山市顺德区大良街道', eta:'10:20 到', unload:'卸货 20min'},
+      {n:3, name:'广州番禺华美布行', area:'广州市番禺区南村镇', eta:'12:30 到', unload:'卸货 30min'}
+    ],
+    reason:'三处收货地址均位于顺德区东北方向，路线重合度 82%；张师傅早班在岗且历史准时率 97%、综合绩效第 1；结合 16:30 后广佛高速拥堵，建议 13:20 前出发，预计可全部在时间窗内送达。',
+    briefScore:'建议采纳 · 97',
+    brief:['3 单路线重合度 82%，顺德东北方向顺路配送','装载 91%/86% 平衡，未超限'],
+    briefSug:'按 ①→②→③ 顺序执行，13:20 前出发避开 16:30 后广佛高速拥堵。'
+  },
+  {
+    name:'李强', avatar:'a3', tag:'李', plate:'粤E·C5510', type:'高栏车 8t/40m³',
+    shift:'晚班 14:00-22:00', shiftCls:'pm',
+    orders:[{n:'CK20260919043',hot:false},{n:'CK20260919042',hot:false},{n:'CK20260919040',hot:false}],
+    load:85, loadLabel:'85%', route:'① 龙江家具厂 ② 宏业皮革厂 ③ 三水万达皮革',
+    meta:[['里程','92.1km'],['出发','14:30'],['装载','85%/78%'],['准时率','89%']],
+    stops:[
+      {n:1, name:'顺德龙江家具厂', area:'佛山市顺德区乐从镇', eta:'15:00 到', unload:'卸货 40min'},
+      {n:2, name:'顺德宏业皮革厂', area:'佛山市顺德区龙江镇', eta:'16:10 到', unload:'卸货 35min'},
+      {n:3, name:'三水万达皮革', area:'佛山市三水区乐平镇', eta:'17:30 到', unload:'卸货 30min'}
+    ],
+    reason:'三单均在顺德—三水方向，高栏车装载率 85% 且未超限；李师傅晚班在岗，接单时间与龙江、乐从午间卸货节奏匹配；暴雨预警前完成三水方向配送，降低降雨延误风险。',
+    briefScore:'注意时效 · 89',
+    brief:['顺德→三水方向顺畅，高栏车 85% 未超限','历史准时率 89%，需防范暴雨前延误'],
+    briefSug:'14:30 前装车出发，三水万达站 17:30 前完成卸货避开降雨。'
+  },
+  {
+    name:'陈志明', avatar:'a4', tag:'陈', plate:'粤E·B2078', type:'厢式货车 5t/25m³',
+    shift:'早班 06:00-14:00', shiftCls:'am',
+    orders:[{n:'CK20260919039',hot:true},{n:'CK20260919037',hot:false}],
+    load:78, loadLabel:'78%', route:'① 番禺华美布行 ② 番禺南村家具',
+    meta:[['里程','54.7km'],['出发','08:45'],['装载','78%/72%'],['准时率','95%']],
+    stops:[
+      {n:1, name:'广州番禺华美布行', area:'广州市番禺区南村镇', eta:'10:00 到', unload:'卸货 30min'},
+      {n:2, name:'番禺南村家具厂', area:'广州市番禺区南村镇', eta:'11:10 到', unload:'卸货 25min'}
+    ],
+    reason:'番禺方向相对独立，往返里程最短；其中 1 笔加急订单已优先放入首站，陈师傅熟悉番禺 / 南沙区域，早班出车可满足 10:00 时间窗，预计准时率 95%。',
+    briefScore:'建议采纳 · 95',
+    brief:['番禺方向独立成线，往返里程最短 54.7km','熟悉番禺/南沙，加急单已排首站'],
+    briefSug:'08:45 出发按顺序配送，首站加急订单优先交付。'
+  },
+  {
+    name:'周海生', avatar:'a2', tag:'周', plate:'粤E·G1982', type:'厢式货车 5t/25m³',
+    shift:'机动班 10:00-18:00', shiftCls:'am',
+    orders:[{n:'CK20260919044',hot:false},{n:'CK20260919036',hot:false}],
+    load:64, loadLabel:'64%', route:'① 广州番禺华美布行 ② 顺德宏业皮革厂',
+    meta:[['里程','61.3km'],['出发','10:20'],['装载','64%/60%'],['准时率','92%']],
+    stops:[
+      {n:1, name:'广州番禺华美布行', area:'广州市番禺区南村镇', eta:'11:30 到', unload:'卸货 30min'},
+      {n:2, name:'顺德宏业皮革厂', area:'佛山市顺德区龙江镇', eta:'14:20 到', unload:'卸货 35min'}
+    ],
+    reason:'承接番禺回程顺路订单与顺德宏业补位订单，作为机动班补充运力降低车辆使用数；装载率 64% 略低但可避免增加一台车辆，综合车辆数与里程最优。',
+    briefScore:'灵活补充 · 92',
+    brief:['机动班承接回程顺路订单，避免增加车辆','装载 64% 偏低，但总车辆数最少'],
+    briefSug:'10:20 出发，先番禺后顺德宏业，返仓前确认暴雨路况。'
+  }
+];
+const AI_UNASSIGN = {order:'CK20260919038', reason:'订单重量 3.4t + 体积超出全部候选车辆剩余载积，且时间窗与现有路线冲突，AI 无法满足硬性装载约束。'};
+
+let aiPlanApplied = false;   // 是否已执行配载
+
+function openAiLoadModal(){
+  if(aiPlanApplied){
+    alert('当前方案已按 AI 建议执行，如需重新计算请先在调度中心「调整」还原后重试。');
+    return;
+  }
+  const root = $('#aiModalRoot');
+  root.innerHTML = `
+  <div class="modal-mask" onclick="if(event.target===this)closeAiModal()">
+    <div class="ai-modal">
+      <div class="am-head">
+        <span class="spark">${IC('cpu',22)}</span>
+        <div class="grow"><div class="t">AI 一键配载 · 正在思考</div><div class="s">基于订单交期 · 路线 · 天气 · 排班 · 拥堵 · 装载 · 紧急程度 · 司机表现 综合求解</div></div>
+        <button style="border:none;background:rgba(255,255,255,.12);color:#C7D6F2;width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:15px" onclick="closeAiModal()">✕</button>
+      </div>
+      <div class="am-body" id="aiModalBody"><!-- 由 JS 渲染 --></div>
+      <div class="am-foot"><button class="btn ghost" onclick="closeAiModal()">取消</button><button class="btn primary" disabled style="opacity:.45" id="aiApplyBtn">${IC('check',15)} 确认执行本次建议</button></div>
+    </div>
+  </div>`;
+  runAiThink();
+}
+function runAiThink(){
+  const body = $('#aiModalBody');
+  body.innerHTML = `
+    <div class="think-head">
+      <span class="th-ic">${IC('cpu',17)}</span>
+      <div><b>AI 正在综合计算最优配载方案</b><span>正在读取今日订单 / 路线 / 天气 / 排班 / 拥堵 / 装载 / 紧急程度 / 司机表现…</span></div>
+    </div>
+    <div class="think-log" id="thinkLog"></div>
+    <div class="think-progress"><i id="thinkBar" style="width:0%"></i></div>
+    <div class="think-note" id="thinkNote">正在启动计算引擎…</div>`;
+  const logEl = $('#thinkLog');
+  let i = 0;
+  const t = setInterval(()=>{
+    if(i >= AI_THINK_STEPS.length){ clearInterval(t); setTimeout(showAiResult, 420); return; }
+    const line = document.createElement('div');
+    line.className = 'think-line show';
+    line.innerHTML = `<span class="tl-ico">${IC(AI_THINK_STEPS[i].ico, 12)}</span><div><span class="tl-k">${AI_THINK_STEPS[i].k}</span> <span class="tl-v">${AI_THINK_STEPS[i].v}</span></div>`;
+    logEl.appendChild(line);
+    $('#thinkBar').style.width = Math.round(((i+1)/AI_THINK_STEPS.length)*100) + '%';
+    $('#thinkNote').textContent = `${AI_THINK_STEPS[i].k}…${AI_THINK_STEPS[i].v}（${i+1}/${AI_THINK_STEPS.length}）`;
+    i++;
+  }, 480);
+}
+function showAiResult(){
+  const body = $('#aiModalBody');
+  body.innerHTML = `
+    <div class="ai-result-head">
+      <span class="rh-ic">${IC('check-c',20)}</span>
+      <div class="grow"><b>AI 配载结果已生成</b><span>共为 4 名司机规划配送顺序 · 1 笔订单需人工介入</span></div>
+      <span class="badge green" style="height:26px;font-size:12px">计算完成 · 12.6s</span>
+    </div>
+    <div class="ai-sum">
+      <div class="row">
+        <div class="cell">使用司机<b class="num">4 名</b></div>
+        <div class="cell">覆盖订单<b class="num">10 / 11 笔</b></div>
+        <div class="cell">总里程<b class="num g">276.5 km <span style="font-size:11px;color:var(--ink3)">↓ 12.6%</span></b></div>
+        <div class="cell">平均装载率<b class="num g">79.8%</b></div>
+        <div class="cell">预计准时率<b class="num g">95.6%</b></div>
+        <div class="cell">方案评分<b class="num" style="color:var(--brand)">92.4</b></div>
+      </div>
+    </div>
+    <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:10px">各司机配载规划</div>
+    ${AI_DRIVER_PLANS.map((p,i)=>`
+    <div class="driver-plan">
+      <div class="dp-head">
+        <span class="avatar ${p.avatar}">${p.tag}</span>
+        <div class="dp-info grow"><b>${p.name} <span class="badge green" style="height:20px;font-size:10.5px;margin-left:4px">今日在班</span></b><span>${p.plate} · ${p.type} · <span class="shift-tag ${p.shiftCls}" style="height:18px;font-size:10px;padding:0 7px">${p.shift}</span></span></div>
+        <span class="badge green">${p.loadLabel} 装载</span>
+      </div>
+      <div class="dp-body">
+        <div class="dp-orders">${p.orders.map(o=>`<span class="o${o.hot?' hot':''}">${o.hot?'⚡ ':''}${o.n}</span>`).join('')}</div>
+        <div class="dp-meta">${p.meta.map(m=>`<span>${m[0]} <b>${m[1]}</b></span>`).join('')}</div>
+        <div class="dp-stops">
+          <div class="ds-title">${IC('route',12)} 途经点加工厂 · 配送顺序</div>
+          ${p.stops.map((s,i)=>`
+          <div class="ds-step">
+            <div class="ds-node ${i===0?'first':''}">${s.n}</div>
+            ${i < p.stops.length-1 ? '<div class="ds-line"></div>' : ''}
+            <div class="ds-info">
+              <b>${s.n}. ${s.name} <span class="ds-area">${s.area}</span></b>
+              <span>预计 ${s.eta} · ${s.unload}</span>
+            </div>
+          </div>`).join('')}
+        </div>
+        <div class="dp-reason"><div class="dr-t">${IC('cpu',12)} AI 推荐原因</div>${p.reason}</div>
+      </div>
+    </div>`).join('')}
+    <div class="ai-unassign"><b>${IC('alert',14)} 无法分配的订单</b>${AI_UNASSIGN.order} · ${AI_UNASSIGN.reason}</div>`;
+  const btn = $('#aiApplyBtn');
+  btn.disabled = false; btn.style.opacity = '';
+  btn.innerHTML = `${IC('check',15)} 确认执行本次建议`;
+}
+function closeAiModal(){ const r=$('#aiModalRoot'); if(r) r.innerHTML=''; }
+
+function applyAiPlan(){
+  if(aiPlanApplied) return;
+  aiPlanApplied = true;
+  /* 1) 右栏任务槽位整体替换为新配载结果 */
+  const rt = $('#v-dispatch').querySelector('.dispatch-grid .card:nth-child(3) .card-b');
+  if(rt){
+    rt.innerHTML = `
+      <div class="ai-success-bar">${IC('check-c',17)} 已按 AI 配载结果更新 · 4 名司机排班已同步（2026-09-19 14:35）</div>
+      ${AI_DRIVER_PLANS.map(p=>`
+      <div class="task-slot" style="border:1px solid #D5E6FF;border-radius:12px;padding:11px;margin-bottom:10px;background:#F6FAFF">
+        <div class="flex between">
+          <div class="flex gap8"><span class="avatar ${p.avatar}">${p.tag}</span><div><b class="s13">${p.name}</b><div class="c3 s12">${p.plate} · ${p.type}</div></div></div>
+          <span class="badge green">${p.loadLabel} 装载</span>
+        </div>
+        <div class="flex gap6 mt8"><span class="shift-tag ${p.shiftCls}">${p.shift}</span><span class="badge brand" style="height:22px">今日在班</span></div>
+        <div class="s12 mt8 c2">${p.route}</div>
+        <div class="flex between mt8 s12"><span class="c3">${p.meta[0][0]} ${p.meta[0][1]}</span><span class="c3">${p.meta[1][1]} 出发</span><span class="brand bold">准时率 ${p.meta[3][1]}</span></div>
+        <div class="progress mt8"><i style="width:${p.load}%"></i></div>
+        <div class="ai-brief">
+          <div class="ab-head">${IC('cpu',12)} AI 派单分析 <span class="ab-score">${p.briefScore}</span></div>
+          <div class="ab-points">${p.brief.map(b=>`<span>· ${b}</span>`).join('')}</div>
+          <div class="ab-suggest"><b>建议：</b>${p.briefSug}</div>
+        </div>
+      </div>`).join('')}
+      <div class="ai-reason" style="background:linear-gradient(135deg,#EEF4FF,#F3F8FF);border:1px solid #D9E7FF;border-radius:12px;padding:11px;margin-bottom:10px">
+        <div class="flex gap6 s12 bold brand" style="margin-bottom:6px">${IC('cpu',14)} AI 配载说明</div>
+        <div class="s12 c2">已按「综合最优」配载：使用司机 4 名、覆盖 10 笔订单、总里程 276.5km（↓12.6%）、平均装载率 79.8%、预计准时率 95.6%。</div>
+      </div>
+      <div class="alertbar red">${IC('alert')}<b>1 单无法分配</b><span class="grow s12">CK20260919038 超载约束冲突</span></div>`;
+  }
+  /* 2) 左栏勾选状态同步 */
+  const cards = document.querySelectorAll('#v-dispatch .drag-row');
+  cards.forEach(c=>{ const id=c.innerText.slice(0,12); c.style.borderLeftColor = (id==='CK20260919039') ? 'var(--cyan)' : 'var(--brand)'; const last=c.querySelector('.flex.between.mt8 .s12:last-child, .flex.between.mt8 span:last-child'); if(last && id!=='CK20260919038') last.textContent='已配载 ✓'; });
+  /* 3) 头部状态徽标更新 */
+  const badge = document.querySelector('#v-dispatch .card-h .badge.green');
+  if(badge) badge.textContent = 'AI 配载 4 辆';
+  closeAiModal();
+}
+
+/* AI 一键配载按钮绑定 */
+document.addEventListener('DOMContentLoaded', ()=>{
+  const btn = document.querySelector('#v-dispatch .page-title .btn.primary[onclick*="openAiLoadModal"]');
+  if(btn) btn.onclick = openAiLoadModal;
+});
+</script>
+</body>
+</html>
